@@ -127,6 +127,11 @@ DATABASES = {
 
 AUTH_USER_MODEL = "acesso.Usuario"
 
+AUTHENTICATION_BACKENDS = [
+    "apps.acesso.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 REST_FRAMEWORK = {
     # Provisório: o mecanismo de autenticação da API depende do protocolo da
     # autenticação institucional (OIDC ou SAML), ainda não confirmado. Fica só a
@@ -183,3 +188,9 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]

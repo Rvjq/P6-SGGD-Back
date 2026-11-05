@@ -1,22 +1,34 @@
 from django.contrib.auth.models import AbstractUser
+from django.db.models.functions import Lower
 from django.db import models
 
-
 class Usuario(AbstractUser):
-    """Usuário do sistema (AUTH_USER_MODEL).
+    """Usuário do SGGD, identificado pelo e-mail.
 
-    Ainda igual ao User padrão do Django. Foi criado antes da primeira migração
-    para que campos vindos da autenticação institucional (ainda não definida)
-    possam ser adicionados depois sem trocar o modelo de usuário.
-
-    Papéis são Groups do Django e operações são Permissions; não há campo de
-    papel aqui porque uma mesma pessoa pode exercer vários papéis.
+    Papéis são representados por Groups do Django e
+    operações por Permissions. Um usuário pode exercer
+    múltiplos papéis.
     """
+
+    email = models.EmailField(
+        "endereço de e-mail",
+        blank=False,
+    )
 
     class Meta(AbstractUser.Meta):
         verbose_name = "usuário"
         verbose_name_plural = "usuários"
 
+        constraints = [
+            models.UniqueConstraint(
+                Lower("email"),
+                name="acesso_usuario_email_unico_ci",
+            ),
+            models.CheckConstraint(
+                condition=~models.Q(email=""),
+                name="acesso_usuario_email_obrigatorio",
+            ),
+        ]
 
 class Operacao(models.Model):
     """Catálogo das operações protegidas do SGGD.
