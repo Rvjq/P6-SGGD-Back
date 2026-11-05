@@ -1,11 +1,13 @@
-"""Testes do componente de acesso do SGGD."""
+"""Testes de identidade, autenticação e autorização do componente acesso."""
+
 import json
 
-from django.urls import reverse
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import AnonymousUser, Group, Permission
 from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase, Client
+from django.db import IntegrityError, transaction
+from django.test import Client, TestCase
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.test import APIRequestFactory, force_authenticate
@@ -18,27 +20,36 @@ from .models import Usuario
 SENHA_TESTE = "Senha-de-teste-123"
 PERMISSAO_TESTE = "acesso.view_usuario"
 
-# Contrato de papéis esperado: independente da implementação das migrações.
+# Contrato esperado, independente de como a migração concede as permissões.
 PERMISSOES_POR_PAPEL = {
-    "Técnico": {"registrar_resultado"},
     "Configurador": {
         "cadastrar_indicador",
+        "cadastrar_meta",
         "configurar_regra_calculo",
+        "gerenciar_competencia",
         "cadastrar_unidade",
         "cadastrar_avaliado",
     },
-    "CAM/SECOGE": {
-        "homologar_resultado",
-        "encerrar_ciclo",
-        "publicar_resultado",
-        "julgar_recurso",
-        "enviar_resultado_folha",
-    },
-    "Avaliado": {"consultar_propria_pontuacao", "apresentar_recurso"},
+    "Registrador": {"registrar_resultado"},
+    "Homologador": {"homologar_resultado"},
+    "Consultador": {"consultar_resultados", "apresentar_recurso"},
 }
-TODAS_OPERACOES = set().union(*PERMISSOES_POR_PAPEL.values())
+
+# As operações abaixo já constam do catálogo, mas não têm titular definido.
+PERMISSOES_SEM_PAPEL = {
+    "encerrar_ciclo",
+    "publicar_resultado",
+    "julgar_recurso",
+    "enviar_resultado_folha",
+}
+
+TODAS_OPERACOES = (
+    set().union(*PERMISSOES_POR_PAPEL.values()) | PERMISSOES_SEM_PAPEL
+)
+
+
 class AcessoTestMixin:
-    """Fábrica de dados e chamadas HTTP compartilhadas pelos testes."""
+    """Criação centralizada de usuários/grupos para todos os testes."""
 
     def criar_usuario(self, username="ana", *, papeis=(), superusuario=False):
         criador = (
@@ -56,8 +67,8 @@ class AcessoTestMixin:
 
     def criar_grupo(self, nome, *permissoes):
         grupo = Group.objects.create(name=nome)
-        for permissao in permissoes:
-            app_label, codename = permissao.split(".", 1)
+        for codigo in permissoes:
+            app_label, codename = codigo.split(".", 1)
             grupo.permissions.add(
                 Permission.objects.get(
                     content_type__app_label=app_label,
@@ -72,177 +83,6 @@ class AcessoTestMixin:
             force_authenticate(request, user=usuario)
         return view.as_view()(request)
 
-class LoginAPITests(AcessoTestMixin, TestCase):
-
-    def setUp(self):
-        self.usuario = self.criar_usuario()
-        self.client = Client(enforce_csrf_checks=True)
-
-        resposta = self.client.get(reverse("csrf"))
-        self.csrf_token = resposta.cookies["csrftoken"].value
-
-    def fazer_login(self, email, senha, *, csrf=True):
-        headers = {}
-
-        if csrf:
-            headers["HTTP_X_CSRFTOKEN"] = self.csrf_token
-
-        return self.client.post(
-            reverse("login"),
-            data=json.dumps({
-                "email": email,
-                "password": senha,
-            }),
-            content_type="application/json",
-            **headers,
-        )
-
-    def test_login_com_credenciais_validas(self):
-        resposta = self.fazer_login(
-            "ana@exemplo.com",
-            SENHA_TESTE,
-        )
-
-        self.assertEqual(resposta.status_code, 200)
-        self.assertEqual(
-            resposta.json()["email"],
-            self.usuario.email,
-        )
-        self.assertEqual(
-            int(self.client.session["_auth_user_id"]),
-            self.usuario.pk,
-        )
-
-    def test_login_com_senha_incorreta(self):
-        resposta = self.fazer_login(
-            "ana@exemplo.com",
-            "senha-incorreta",
-        )
-
-        self.assertEqual(resposta.status_code, 401)
-
-    def test_login_sem_csrf(self):
-        resposta = self.fazer_login(
-            "ana@exemplo.com",
-            SENHA_TESTE,
-            csrf=False,
-        )
-
-        self.assertEqual(resposta.status_code, 403)
-
-    def test_me_sem_autenticacao(self):
-        resposta = self.client.get(reverse("me"))
-
-        self.assertEqual(resposta.status_code, 401)
-
-    def test_me_retorna_usuario_autenticado(self):
-        self.usuario.groups.add(
-            Group.objects.get(name="Técnico")
-        )
-
-        self.fazer_login(
-            "ana@exemplo.com",
-            SENHA_TESTE,
-        )
-
-        resposta = self.client.get(reverse("me"))
-
-        self.assertEqual(resposta.status_code, 200)
-
-        dados = resposta.json()
-
-        self.assertEqual(dados["email"], self.usuario.email)
-        self.assertIn("Técnico", dados["papeis"])
-        self.assertIn(
-            "acesso.registrar_resultado",
-            dados["permissoes"],
-        )
-
-    def test_logout_encerra_sessao(self):
-        self.fazer_login(
-            "ana@exemplo.com",
-            SENHA_TESTE,
-        )
-
-        # O Django renova o token CSRF após o login.
-        token = self.client.cookies["csrftoken"].value
-
-        resposta = self.client.post(
-            reverse("logout"),
-            HTTP_X_CSRFTOKEN=token,
-        )
-
-        self.assertEqual(resposta.status_code, 200)
-
-        resposta_me = self.client.get(reverse("me"))
-
-        self.assertEqual(resposta_me.status_code, 401)
-
-    def test_logout_sem_csrf(self):
-        self.fazer_login(
-            "ana@exemplo.com",
-            SENHA_TESTE,
-        )
-
-        resposta = self.client.post(reverse("logout"))
-
-        self.assertEqual(resposta.status_code, 403)
-
-        # A sessão deve continuar ativa.
-        resposta_me = self.client.get(reverse("me"))
-
-        self.assertEqual(resposta_me.status_code, 200)
-class AutenticacaoEmailTests(AcessoTestMixin, TestCase):
-
-    def test_autentica_com_email_e_senha_corretos(self):
-        usuario = self.criar_usuario()
-
-        autenticado = authenticate(
-            email="ana@exemplo.com",
-            password=SENHA_TESTE,
-        )
-
-        self.assertEqual(autenticado, usuario)
-
-    def test_email_nao_diferencia_maiusculas(self):
-        usuario = self.criar_usuario()
-
-        autenticado = authenticate(
-            email="ANA@EXEMPLO.COM",
-            password=SENHA_TESTE,
-        )
-
-        self.assertEqual(autenticado, usuario)
-
-    def test_rejeita_senha_incorreta(self):
-        self.criar_usuario()
-
-        autenticado = authenticate(
-            email="ana@exemplo.com",
-            password="senha-errada",
-        )
-
-        self.assertIsNone(autenticado)
-
-    def test_rejeita_usuario_inativo(self):
-        usuario = self.criar_usuario()
-        usuario.is_active = False
-        usuario.save(update_fields=["is_active"])
-
-        autenticado = authenticate(
-            email="ana@exemplo.com",
-            password=SENHA_TESTE,
-        )
-
-        self.assertIsNone(autenticado)
-
-    def test_rejeita_email_inexistente(self):
-        autenticado = authenticate(
-            email="inexistente@exemplo.com",
-            password=SENHA_TESTE,
-        )
-
-        self.assertIsNone(autenticado)
 
 class ModeloUsuarioTests(AcessoTestMixin, TestCase):
     def test_modelo_customizado_e_utilizado(self):
@@ -253,6 +93,25 @@ class ModeloUsuarioTests(AcessoTestMixin, TestCase):
         self.assertEqual(usuario.email, "ana@exemplo.com")
         self.assertNotEqual(usuario.password, SENHA_TESTE)
         self.assertTrue(usuario.check_password(SENHA_TESTE))
+
+    def test_banco_rejeita_email_vazio(self):
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                Usuario.objects.create_user(
+                    username="sememail",
+                    email="",
+                    password=SENHA_TESTE,
+                )
+
+    def test_banco_rejeita_email_duplicado_sem_diferenciar_caixa(self):
+        self.criar_usuario()
+        with self.assertRaises(IntegrityError):
+            with transaction.atomic():
+                Usuario.objects.create_user(
+                    username="bia",
+                    email="ANA@EXEMPLO.COM",
+                    password=SENHA_TESTE,
+                )
 
 
 class ConfiguracaoPapeisTests(TestCase):
@@ -267,7 +126,7 @@ class ConfiguracaoPapeisTests(TestCase):
                 obtidas = set(grupo.permissions.values_list("codename", flat=True))
                 self.assertEqual(obtidas, esperadas)
 
-    def test_catalogo_de_operacoes_nao_contem_permissoes_inesperadas(self):
+    def test_catalogo_de_operacoes_contem_somente_as_previstas(self):
         catalogo = set(
             Permission.objects.filter(
                 content_type__app_label="acesso",
@@ -289,9 +148,9 @@ class AutorizacaoTests(AcessoTestMixin, TestCase):
                     )
 
     def test_multiplos_papeis_acumulam_permissoes(self):
-        usuario = self.criar_usuario(papeis=("Técnico", "Configurador"))
+        usuario = self.criar_usuario(papeis=("Registrador", "Consultador"))
         self.assertTrue(usuario_tem_permissao(usuario, "acesso.registrar_resultado"))
-        self.assertTrue(usuario_tem_permissao(usuario, "acesso.cadastrar_indicador"))
+        self.assertTrue(usuario_tem_permissao(usuario, "acesso.consultar_resultados"))
         self.assertFalse(usuario_tem_permissao(usuario, "acesso.homologar_resultado"))
 
     def test_usuario_sem_papel_nao_pode_executar_operacoes(self):
@@ -309,7 +168,7 @@ class AutorizacaoTests(AcessoTestMixin, TestCase):
         self.assertTrue(usuario_tem_permissao(usuario, PERMISSAO_TESTE))
 
     def test_usuario_inativo_nao_tem_acesso(self):
-        usuario = self.criar_usuario(papeis=("Técnico",))
+        usuario = self.criar_usuario(papeis=("Registrador",))
         usuario.is_active = False
         usuario.save(update_fields=["is_active"])
         self.assertFalse(usuario_tem_permissao(usuario, "acesso.registrar_resultado"))
@@ -322,6 +181,34 @@ class AutorizacaoTests(AcessoTestMixin, TestCase):
     def test_superusuario_ativo_tem_permissao(self):
         usuario = self.criar_usuario("admin", superusuario=True)
         self.assertTrue(usuario_tem_permissao(usuario, PERMISSAO_TESTE))
+
+
+class AutenticacaoEmailTests(AcessoTestMixin, TestCase):
+    def test_autentica_com_email_e_senha_corretos(self):
+        usuario = self.criar_usuario()
+        autenticado = authenticate(email="ana@exemplo.com", password=SENHA_TESTE)
+        self.assertEqual(autenticado, usuario)
+
+    def test_email_nao_diferencia_maiusculas(self):
+        usuario = self.criar_usuario()
+        autenticado = authenticate(email="ANA@EXEMPLO.COM", password=SENHA_TESTE)
+        self.assertEqual(autenticado, usuario)
+
+    def test_rejeita_senha_incorreta(self):
+        self.criar_usuario()
+        autenticado = authenticate(email="ana@exemplo.com", password="senha-errada")
+        self.assertIsNone(autenticado)
+
+    def test_rejeita_usuario_inativo(self):
+        usuario = self.criar_usuario()
+        usuario.is_active = False
+        usuario.save(update_fields=["is_active"])
+        autenticado = authenticate(email="ana@exemplo.com", password=SENHA_TESTE)
+        self.assertIsNone(autenticado)
+
+    def test_rejeita_email_inexistente(self):
+        autenticado = authenticate(email="inexistente@exemplo.com", password=SENHA_TESTE)
+        self.assertIsNone(autenticado)
 
 
 class OperacaoProtegida(APIView):
@@ -371,11 +258,72 @@ class PermissoesApiTests(AcessoTestMixin, TestCase):
         with self.assertRaises(ImproperlyConfigured):
             self.requisitar(OperacaoSemPermissoes, self.criar_usuario())
 
-    def test_apenas_cam_pode_julgar_recurso(self):
-        casos = (("Avaliado", status.HTTP_403_FORBIDDEN),
-                 ("CAM/SECOGE", status.HTTP_200_OK))
-        for indice, (papel, esperado) in enumerate(casos):
+    def test_julgamento_de_recurso_nao_e_atribuido_automaticamente(self):
+        for indice, papel in enumerate(PERMISSOES_POR_PAPEL):
             with self.subTest(papel=papel):
                 usuario = self.criar_usuario(f"usuario{indice}", papeis=(papel,))
                 resposta = self.requisitar(JulgarRecurso, usuario)
-                self.assertEqual(resposta.status_code, esperado)
+                self.assertEqual(resposta.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class LoginAPITests(AcessoTestMixin, TestCase):
+    def setUp(self):
+        self.usuario = self.criar_usuario()
+        self.client = Client(enforce_csrf_checks=True)
+        resposta = self.client.get(reverse("csrf"))
+        self.csrf_token = resposta.cookies["csrftoken"].value
+
+    def fazer_login(self, email, senha, *, csrf=True):
+        headers = {}
+        if csrf:
+            headers["HTTP_X_CSRFTOKEN"] = self.csrf_token
+
+        return self.client.post(
+            reverse("login"),
+            data=json.dumps({"email": email, "password": senha}),
+            content_type="application/json",
+            **headers,
+        )
+
+    def test_login_com_credenciais_validas(self):
+        resposta = self.fazer_login("ana@exemplo.com", SENHA_TESTE)
+        self.assertEqual(resposta.status_code, 200)
+        self.assertEqual(resposta.json()["email"], self.usuario.email)
+        self.assertEqual(int(self.client.session["_auth_user_id"]), self.usuario.pk)
+
+    def test_login_com_senha_incorreta(self):
+        resposta = self.fazer_login("ana@exemplo.com", "senha-incorreta")
+        self.assertEqual(resposta.status_code, 401)
+
+    def test_login_sem_csrf(self):
+        resposta = self.fazer_login("ana@exemplo.com", SENHA_TESTE, csrf=False)
+        self.assertEqual(resposta.status_code, 403)
+
+    def test_me_sem_autenticacao(self):
+        resposta = self.client.get(reverse("me"))
+        self.assertEqual(resposta.status_code, 401)
+
+    def test_me_retorna_usuario_autenticado(self):
+        self.usuario.groups.add(Group.objects.get(name="Registrador"))
+        self.fazer_login("ana@exemplo.com", SENHA_TESTE)
+        resposta = self.client.get(reverse("me"))
+        self.assertEqual(resposta.status_code, 200)
+        dados = resposta.json()
+        self.assertEqual(dados["email"], self.usuario.email)
+        self.assertIn("Registrador", dados["papeis"])
+        self.assertIn("acesso.registrar_resultado", dados["permissoes"])
+
+    def test_logout_encerra_sessao(self):
+        self.fazer_login("ana@exemplo.com", SENHA_TESTE)
+        token = self.client.cookies["csrftoken"].value
+        resposta = self.client.post(reverse("logout"), HTTP_X_CSRFTOKEN=token)
+        self.assertEqual(resposta.status_code, 200)
+        resposta_me = self.client.get(reverse("me"))
+        self.assertEqual(resposta_me.status_code, 401)
+
+    def test_logout_sem_csrf(self):
+        self.fazer_login("ana@exemplo.com", SENHA_TESTE)
+        resposta = self.client.post(reverse("logout"))
+        self.assertEqual(resposta.status_code, 403)
+        resposta_me = self.client.get(reverse("me"))
+        self.assertEqual(resposta_me.status_code, 200)
