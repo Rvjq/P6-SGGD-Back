@@ -71,6 +71,7 @@ def me_view(request):
         "id": usuario.pk,
         "email": usuario.email,
         "nome": usuario.get_full_name() or usuario.email,
+        "is_superuser": usuario.is_superuser,
         "papeis": list(
             usuario.groups.values_list("name", flat=True)
         ),

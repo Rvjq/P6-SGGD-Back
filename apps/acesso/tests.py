@@ -313,6 +313,20 @@ class LoginAPITests(AcessoTestMixin, TestCase):
         self.assertIn("Registrador", dados["papeis"])
         self.assertIn("acesso.registrar_resultado", dados["permissoes"])
 
+    def test_me_distingue_superusuario_de_papel_funcional(self):
+        admin = self.criar_usuario("admin", superusuario=True)
+        self.client.force_login(admin)
+        resposta = self.client.get(reverse("me"))
+        self.assertEqual(resposta.status_code, 200)
+        self.assertTrue(resposta.json()["is_superuser"])
+        self.assertEqual(resposta.json()["papeis"], [])
+
+    def test_me_usuario_comum_nao_e_superusuario(self):
+        self.fazer_login("ana@exemplo.com", SENHA_TESTE)
+        resposta = self.client.get(reverse("me"))
+        self.assertEqual(resposta.status_code, 200)
+        self.assertFalse(resposta.json()["is_superuser"])
+
     def test_logout_encerra_sessao(self):
         self.fazer_login("ana@exemplo.com", SENHA_TESTE)
         token = self.client.cookies["csrftoken"].value
