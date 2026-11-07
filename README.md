@@ -1,132 +1,130 @@
-# Backend do SGGD (Django)
+# SGGD — Backend (Django)
 
-Monólito modular: cada componente é um app Django em `apps/`, com suas próprias tabelas no mesmo
-banco PostgreSQL. Um componente só usa outro pelo módulo público `apps/<componente>/interface.py`
-(verificado pelo import-linter).
+Sistema de Gestão e Gratificação de Desempenho da **Secretaria de Saúde do Recife (SESAU)**. O recorte desta entrega é a avaliação de **gestores, supervisores e coordenadores**, utilizando como referência operacional a planilha **CAM 1.2** fornecida à equipe. Não calcula gratificações dos demais profissionais por exercerem atividades assistenciais.
 
-## Requisitos
+> **Atenção às fontes:** “CAM 1.2” é a identificação da planilha recebida, não o nome oficial da portaria. A **Portaria Conjunta SESAU/SEPLAGTD nº 001, de 30/08/2024**, publicada no Diário Oficial nº 131 em 21/09/2024 (pp. 5–10), fundamenta parte das regras. Não foi comprovada a vigência atual da versão nem a equivalência integral entre planilha e portaria. Divergências estão identificadas e cálculos duvidosos não devem ser usados como resultados oficiais.
 
-- Python 3.12+ (testado com 3.13)
-- PostgreSQL (testado com a versão 16)
+## Situação do desenvolvimento (07/11/2026)
 
-## Configuração
+| Componente | Estado | O que existe |
+| --- | --- | --- |
+| `acesso` | Implementado e testado | Login por e-mail/senha, sessão e CSRF; grupos, permissões e rotas protegidas. |
+| `cadastro` | Implementado e testado | Distritos, tipos de unidade, unidades, categorias, avaliados, responsabilidades e API administrativa. |
+| `normativa` | Modelos e importação testados | CAM 1.2 carregada, catálogo hierárquico, pesos, metas e regras; serviço de cálculo isolado. |
+| `coleta` | Pendente | Lançamento de resultados e homologação por competência. |
+| `apuracao` | Pendente | Orquestração dos resultados, consolidação por gestor e memória de cálculo. |
+| `publicacao`, `recurso`, `pagamento`, `auditoria` | Não entregues funcionalmente neste recorte | Módulos previstos na arquitetura original; implementação futura conforme escopo. |
 
-```bash
+Os testes locais das três primeiras áreas foram **executados e confirmados pela equipe**. O catálogo da Normativa está configurado no banco, mas **não existe ainda apuração ponta a ponta** de gratificação.
+
+## Requisitos e preparação
+
+- Python **3.12 ou superior**, Django **5.2**, Django REST Framework **3.16** e PostgreSQL; as faixas efetivas de dependências estão em `requirements.txt`.
+- Ambiente virtual (`.venv`) e banco PostgreSQL configurado no `.env` a partir de `.env.example`.
+- Não comitar o `.env` nem senhas de teste.
+
+No PowerShell, a partir da pasta do backend (onde fica `manage.py`):
+
+```powershell
 python -m venv .venv
-# Windows: .venv\Scripts\activate    Linux/macOS: source .venv/bin/activate
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-cp .env.example .env    # e preencha os valores
+# Configure .env e crie o banco PostgreSQL antes de prosseguir.
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
 ```
 
-Variáveis (`backend/.env`, que não vai para o Git):
+Painel técnico: <http://127.0.0.1:8000/admin/>. A criação de usuários funcionais no Django Admin ainda depende de ajustes no formulário de criação por e-mail; durante os testes, foram utilizados usuários criados por script local. **Não inserir senhas simples no repositório.**
 
-| Variável | Obrigatória | Descrição |
-|---|---|---|
-| `DJANGO_SECRET_KEY` | sim | Chave secreta do Django |
-| `DJANGO_DEBUG` | não (padrão `0`) | `1` só em desenvolvimento |
-| `DJANGO_ALLOWED_HOSTS` | não (padrão `localhost,127.0.0.1`) | Hosts separados por vírgula |
-| `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | sim | Banco e credenciais |
-| `POSTGRES_HOST`, `POSTGRES_PORT` | não (padrão `localhost`, `5432`) | Servidor |
+## Organização do projeto
 
-Criar o banco no PostgreSQL (exemplo, como administrador do servidor):
-Caso não tenha PostgreSQL ([Guias](https://www.postgresql.org/download/))
-
-```sql
-CREATE ROLE sggd_admin LOGIN PASSWORD 'senha123' CREATEDB;  -- CREATEDB: para o banco de testes
-CREATE DATABASE sggd_db OWNER sggd_admin;
+```text
+apps/
+├── acesso/       # Autenticação, autorização e interface de permissões
+├── cadastro/     # Estrutura organizacional, avaliados e responsabilidades
+├── normativa/    # Catálogo CAM 1.2, regras, pesos e cálculos isolados
+├── coleta/       # Pendente
+├── apuracao/     # Pendente
+├── auditoria/    # Pendente
+├── publicacao/   # Pendente
+├── recurso/      # Pendente
+└── pagamento/    # Pendente
+sggd/              # Configuração e URLs do projeto Django
 ```
 
-## Comandos
+Os apps compartilham **um único banco PostgreSQL**; o `import-linter` verifica os contratos de importação definidos no repositório. Outros componentes devem consumir a interface pública de `cadastro` (`apps.cadastro.interface`) quando essa interface atender à consulta necessária.
 
-```bash
-python manage.py migrate          # aplica as migrações
-python manage.py createsuperuser  # primeiro usuário administrador
-python manage.py runserver        # http://127.0.0.1:8000 (admin em /admin/)
-python manage.py test             # testes
-lint-imports                      # fronteiras entre componentes
+## Controle de Acesso (`apps/acesso`)
+
+O login utiliza **e-mail**, sessões Django e CSRF. Rotas:
+
+- `GET /api/auth/csrf/` — define cookie CSRF;
+- `POST /api/auth/login/` — login com e-mail e senha;
+- `GET /api/auth/me/` — sessão, grupos, permissões e `is_superuser`;
+- `POST /api/auth/logout/` — encerra a sessão.
+
+Grupos reais: **Configurador**, **Registrador**, **Homologador** e **Consultador**. `is_superuser` é administração técnica, não um quinto papel funcional. Os grupos recebem permissões do catálogo `apps.acesso.models.Operacao`; autorização deve ser verificada no backend, não apenas ocultando menus no React. O escopo por unidade/indicador ainda será validado nas APIs futuras.
+
+Não confundir esses **papéis de acesso** com as **categorias de avaliação** da CAM 1.2 (USF, GG, SNA etc.).
+
+## Cadastro (`apps/cadastro`)
+
+Modelos: `Distrito`, `TipoUnidade`, `Unidade`, `CategoriaAvaliacao`, `PessoaAvaliada`, `Responsabilidade`.
+
+- A migração inicial cria **8 distritos**, **7 tipos de unidade** e **11 categorias** (7 de unidade e 4 distritais); não cria pessoas nem unidades fictícias.
+- `PessoaAvaliada` é independente de `Usuario` (associação opcional).
+- Uma `Responsabilidade` associa a pessoa a **uma unidade OU um distrito**, sua categoria e um período. Para múltiplas unidades, existem múltiplos vínculos. O gestor distrital se vincula ao distrito, sem replicar cada unidade.
+- Validações impedem período inválido, escopo incompatível e sobreposição da mesma pessoa/categoria/destino.
+- API administrativa: `/api/cadastro/distritos/`, `/tipos-unidade/`, `/unidades/`, `/categorias-avaliacao/`, `/avaliados/`, `/responsabilidades/` (todos sob `/api/cadastro/`).
+- O Django Admin oferece as telas de manutenção; **não há ainda telas React de Cadastro**.
+
+O Cadastro **não armazena metas ou pesos**. Mudanças de distrito/unidade no futuro devem preservar o retrato organizacional das avaliações já encerradas — snapshot de apuração ainda não implementado.
+
+## Normativa CAM 1.2 (`apps/normativa`)
+
+Modelos: `VersaoNormativa`, `Indicador` (estrutura pai/filho), `RegraIndicador` (meta, método, periodicidade e parâmetros por categoria), `PesoIndicador` (peso por categoria).
+
+**Carga validada pela equipe:** 58 registros hierárquicos (57 da planilha + 1 raiz auxiliar do indicador 4), 44 pesos principais, 157 associações de regras e 11 categorias. O catálogo abrange **cinco indicadores principais**: medicamentos/MMH, gestão do trabalho, satisfação do usuário, desempenho da unidade e vigilância em saúde distrital.
+
+Importadores idempotentes (sem sobrescrever regras divergentes) e modo `--dry-run`:
+
+```powershell
+python manage.py importar_cam12 --dry-run
+python manage.py importar_cam12
+python manage.py configurar_regras_cam12 --dry-run
+python manage.py configurar_regras_cam12
 ```
 
-## Componente Controle de Acesso (`apps/acesso`)
+Os dados dos importadores estão em `apps/normativa/data/cam12.json` e `regras_cam12.json`. Os comandos ficam em `apps/normativa/management/commands/`. A lógica matemática isolada está em `apps/normativa/services/calculo_cam12.py`.
 
-### O que existe
+As regras importadas incluem situações marcadas **`CALCULAVEL`**, **`ENTRADA_TRATADA`** e **`REVISAR`**. Há 127 associações com métodos de cálculo suportados a partir de dados já aferidos, 11 que requerem notas previamente tratadas e 19 sinalizadas para revisão. Regras `REVISAR` **não devem ser calculadas automaticamente**. Não executar código arbitrário vindo de JSON; o serviço usa operações predeterminadas.
 
-- **Usuário**: `acesso.Usuario` é o `AUTH_USER_MODEL`. Por enquanto é igual ao usuário padrão do
-  Django. Foi criado antes da primeira migração para permitir campos futuros vindos da autenticação
-  institucional sem precisar trocar o modelo. Outros apps referenciam o usuário com
-  `settings.AUTH_USER_MODEL`, nunca importando o modelo.
-- **Papéis**: são `Group` do Django, um por ator do diagrama de casos de uso. Uma pessoa pode ter
-  vários papéis (ex.: Técnico e Configurador), e as permissões se somam. A SEGTES é ator externo e não
-  tem papel. Não há perfil genérico de administrador.
-- **Operações protegidas**: são `Permission` do Django do catálogo `apps.acesso.models.Operacao`
-  (modelo sem tabela, só declara as permissões). A operação em si é implementada pelo componente dono;
-  o Controle de Acesso define quem pode executá-la. Papéis e permissões (migração
-  `0004_permissoes_dos_papeis`):
+Pendências conhecidas: pesos internos da satisfação (80/20 na portaria versus indicação excepcional 100/0 na planilha), composição da ESF (70/30 na portaria versus pesos divergentes na planilha), classificação de item UCIS/MAC, variantes MAC conforme serviços oferecidos e resultados pré-processados de áreas técnicas. A Portaria determina redistribuição proporcional quando um indicador não puder ser aferido por motivo técnico/administrativo (art. 8º); isso é diferente de **nota zero** ou **dado ausente**.
 
-  | Papel | Permissão (`acesso.<codename>`) | Caso de uso | Componente dono |
-  |---|---|---|---|
-  | Técnico | `registrar_resultado` | UC01 | `coleta` |
-  | Configurador | `cadastrar_indicador`, `configurar_regra_calculo` | UC02 | `normativa` |
-  | | `cadastrar_unidade`, `cadastrar_avaliado` (inclui o vínculo com a unidade) | — | `cadastro` |
-  | CAM/SECOGE | `homologar_resultado` (conferir, homologar ou devolver) | UC03 | `apuracao` |
-  | | `encerrar_ciclo` | — | `apuracao` |
-  | | `publicar_resultado` | UC04 | `publicacao` |
-  | | `julgar_recurso` | UC05 | `recurso` |
-  | | `enviar_resultado_folha` | UC06 | `pagamento` |
-  | Avaliado | `consultar_propria_pontuacao` | UC07 | `publicacao` |
-  | | `apresentar_recurso` | UC08 | `recurso` |
+A Normativa está disponível no **Django Admin**. **Não existe ainda `/api/normativa/` nem formulário React para gerenciar regras.** O serviço de cálculo não consulta sozinho os dados das unidades nem gera avaliações completas.
 
-  Nenhum papel tem permissão para alterar pontuação: ela só é calculada pela apuração.
-- **Interface pública** (`apps/acesso/interface.py`):
-  - `ExigePermissao`: permission class do DRF. A view declara `permissoes_exigidas`. Sem login a
-    resposta é "não autenticado"; logado sem a permissão, 403. Uma view que esquece de declarar as
-    permissões gera erro em vez de liberar o acesso.
-  - `usuario_tem_permissao(usuario, "app.codename")`: a mesma verificação, para uso fora das views.
-- **Padrão da API** (`settings.REST_FRAMEWORK`): toda view exige usuário autenticado
-  (`IsAuthenticated`).
+## Testes e verificação
 
-Exemplo em outro componente:
-
-```python
-# apps/pagamento/views.py
-from apps.acesso.interface import ExigePermissao
-
-class EnviarParaFolha(APIView):
-    permission_classes = [ExigePermissao]
-    permissoes_exigidas = ("acesso.enviar_resultado_folha",)
+```powershell
+python manage.py check
+python manage.py makemigrations --check --dry-run
+python manage.py test apps.acesso apps.cadastro apps.normativa
+python -m unittest apps.normativa.test_motor_cam12_puro
+lint-imports
 ```
 
-A verificação acontece sempre no servidor. Uma operação nova entra no catálogo por uma migração do
-`acesso`, combinada com a dupla do Controle de Acesso.
+**Ordem para reconstruir a base em um ambiente novo:** criar DB e `.env` → `migrate` → `importar_cam12` → `configurar_regras_cam12`. Não repita `makemigrations` se o esquema já corresponde aos arquivos versionados; o comando com `--check --dry-run` apenas verifica desvios.
 
-### Decisões técnicas
+## Limites do MVP e próximo desenvolvimento
 
-- Usar o sistema nativo do Django (usuários, grupos, permissões) em vez de tabelas próprias: atende a
-  vários papéis por pessoa e a papéis cadastráveis sem mudar código.
-- O código verifica **permissões**, nunca nomes de papéis.
-- O catálogo de operações fica no `acesso` (e não no `Meta.permissions` de cada componente) para
-  que as permissões possam ser atribuídas aos papéis já agora, sem o `acesso` depender das migrações
-  dos componentes de negócio.
-- O superusuário do Django passa por todas as permissões. Ele serve só para administração técnica
-  (Django Admin), não é um papel do sistema.
-- Autenticação da API: provisoriamente, só a sessão do Django (a mesma do admin). A autenticação HTTP
-  Basic foi retirada.
+O objetivo é **avaliar e consolidar pontuações** dos gestores, supervisores e coordenadores. Estão fora desta entrega: cálculo monetário final/folha, integração automática com Hórus, SISAB e demais fontes, CAM 2.0 completa, motor genérico de fórmulas e recursos eletrônicos (a portaria cita o SEI/RECIFE).
 
-### Pendências (dependem de decisão da equipe)
+**Próxima etapa: `coleta`**, para informar dados e notas da competência com fonte, autoria, estado e posterior homologação; em seguida, `apuracao` realizará a agregação entre unidades/distritos, usará regras validadas e registrará a memória dos cálculos. Nenhum resultado gerado nesta fase deve ser tratado como valor oficial de gratificação.
 
-- A história de usuário (ID-01) e seus critérios de aceitação não foram localizados nos documentos.
-- O protocolo da autenticação institucional (OIDC ou SAML) e o mecanismo da API (sessão, token).
-  Segundo a Elicitação de Requisitos, o sistema não terá fluxo próprio de login, por isso não há
-  telas de login, logout ou redefinição de senha.
-- Quem cadastra usuários e atribui papéis: os requisitos não definem. Hoje só o superusuário, pelo
-  Django Admin.
-- Escopo dos dados: o Avaliado só pode consultar a **própria** pontuação, e o Técnico registra só os
-  indicadores **sob sua responsabilidade**. A permissão diz que a operação é permitida; quais registros
-  cada pessoa alcança depende do vínculo entre usuário e `Avaliado`/`Unidade` (componente `cadastro`)
-  e de regras de escopo ainda não definidas. Não implementado.
-- Quem mais pode consultar pontuações (ex.: a CAM/SECOGE para homologar, gestores): não definido, por
-  isso não há permissão de consulta geral.
-- Ordem do fluxo (homologar → publicar → enviar à folha) e o deferimento de recurso pedir recálculo
-  à apuração sem alterar a pontuação: são regras de estado dos componentes `apuracao`, `publicacao`,
-  `recurso` e `pagamento`. O Controle de Acesso só garante quem pode executar cada etapa.
-- Registro de login e de alterações de permissão na auditoria (componente `auditoria`). Hoje as
-  alterações feitas pelo Django Admin ficam no histórico do próprio Admin.
+## Documentação
+
+- `docs/SGGD_Escopo_CAM_1_2_Atualizado.docx` — decisão de escopo, referências e estado atual.
+- `docs/SGGD_Componente_Cadastro.docx` — modelos, responsabilidades, validações e limites.
+- `docs/SGGD_Componente_Normativa_CAM12.docx` — catálogo, importadores, regras e restrições.
+- `docs/SGGD_Componente_Cadastro.docx` — Papeise autenticação

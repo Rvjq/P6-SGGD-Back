@@ -1,0 +1,666 @@
+{
+  "versao": {
+    "codigo": "CAM 1.2",
+    "titulo": "Matriz de referência CAM 1.2 (SESAU)",
+    "referencia_documental": "Planilha CAM 1.2 (SESAU); Portaria Conjunta 001/2024 (base normativa associada, a conferir)",
+    "observacoes": "Importação da planilha anonimizada da SESAU, abas Pesos Subindicadores (A4:G60) e Pesos Indicadores (A2:P8), última atualização indicada 10/02/2025. CAM 1.2 é etiqueta da planilha, não denominação oficial da Portaria Conjunta 001/2024. Vigência não presumida. Subpesos divergentes/exceptionais preservados como informação descritiva; não ativados para cálculo."
+  },
+  "fonte": {
+    "arquivo": "Gratificação SESAU Anonimizado (1).xlsx",
+    "sha256": "56a0e62c3d594718a2bdc861ba24d6d7c321e857a5cf6287395423737d34631e",
+    "aba_catalogo": "Pesos Subindicadores",
+    "aba_matriz": "Pesos Indicadores",
+    "atualizacao_indicada": "10/02/2025",
+    "referencia_normativa": "Portaria Conjunta nº 001, 30/08/2024, DOM 131 de 21/09/2024, pp. 5–10"
+  },
+  "catalogo": [
+    {
+      "codigo": "1",
+      "nome": "1. Proporção de registro de recebimento com requisição encerrada no Hórus em até 2 dias úteis de Material Médico Hospitalar (MMH) e Medicamentos da Unidade de Saúde (US).",
+      "pai": null,
+      "tipo_original": "Indicador",
+      "linha_origem": 4,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, UCIS) e SERMAC (MAC)\nCargos de DS: GG, SnA, SnB1",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "2",
+      "nome": "2. Gestão do Trabalho",
+      "pai": null,
+      "tipo_original": "Indicador",
+      "linha_origem": 5,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, CECON, UCIS) e SERMAC (MAC)\nCargos de DS: GG, SnA, SnB2",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "3",
+      "nome": "3. Satisfação do Usuário",
+      "pai": null,
+      "tipo_original": "Indicador",
+      "linha_origem": 10,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, CECON, UCIS) e SERMAC (MAC)\nCargos de DS: GG, SnA, SnB1, SnB2",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4",
+      "nome": "4. Desempenho da Unidade (US)",
+      "pai": null,
+      "tipo_original": "Raiz adicionada a partir da matriz",
+      "linha_origem": null,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, CAPS, CECON, UCIS) e SERMAC (MAC)\nCargos de DS: GG, SnA, SnB1, SnB2",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "5",
+      "nome": "5. Desempenho da Vigilância em Saúde do Distrito Sanitário",
+      "pai": null,
+      "tipo_original": "Indicador",
+      "linha_origem": 57,
+      "cargos_descricao_original": "Cargos de DS: GG, SnA, SnB1",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "2.1",
+      "nome": "2.1. Mobilidade: deslocamento de servidores entre as suas unidades organizacionais, incluindo permuta e transferência, com a devida atualização no Cadastro Nacional de Estabelecimentos de Saúde (CNES).",
+      "pai": "2",
+      "tipo_original": "Subindicador",
+      "linha_origem": 6,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, CECON, UCIS) e SERMAC (MAC)",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "2.2",
+      "nome": "2.2. Abono: número de abonos sem justificativa lega",
+      "pai": "2",
+      "tipo_original": "Subindicador",
+      "linha_origem": 7,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, CECON, UCIS) e SERMAC (MAC)",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "2.3",
+      "nome": "2.3. Tempestividade na operacionalização das gratificações: envio até a data limite estipulada pela SEGTES dos documentos relativos à implantação de gratificações diversas na folha de pagamento",
+      "pai": "2",
+      "tipo_original": "Subindicador",
+      "linha_origem": 8,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, CECON, UCIS) e SERMAC (MAC)",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "2.4",
+      "nome": "2.4. Controle de registro funcional: acompanhamento de registros da vida funcional do servidor relativos às solicitações de homologação de licenças médica",
+      "pai": "2",
+      "tipo_original": "Subindicador",
+      "linha_origem": 9,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, CECON, UCIS) e SERMAC (MAC)",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "3.I",
+      "nome": "3.1. Satisfação do Usuário",
+      "pai": "3",
+      "tipo_original": "Subindicador",
+      "linha_origem": 11,
+      "cargos_descricao_original": "-",
+      "peso_portaria_documentado_pct": "80.000",
+      "peso_excepcional_planilha_pct": "100.000"
+    },
+    {
+      "codigo": "3.II",
+      "nome": "3.2 Proporção de Avaliações de Satisfação do Usuário (ASU) recebidas",
+      "pai": "3",
+      "tipo_original": "Subindicador",
+      "linha_origem": 16,
+      "cargos_descricao_original": "Coordenadores de US: SEAB (USF, UBT, UBT MISTA, CAPS, CECON, UCIS) e SERMAC (MAC)\nCargos de DS: GG, SnA, SnB1, SnB2",
+      "peso_portaria_documentado_pct": "20.000",
+      "peso_excepcional_planilha_pct": "0.000"
+    },
+    {
+      "codigo": "4.I",
+      "nome": "4.1. Desempenho das Unidades - ESF",
+      "pai": "4",
+      "tipo_original": "Indicador",
+      "linha_origem": 17,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.II",
+      "nome": "4.2. Desempenho das Unidades - CAPS",
+      "pai": "4",
+      "tipo_original": "Indicador",
+      "linha_origem": 29,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.III",
+      "nome": "4.3. Desempenho das Unidades - UBT",
+      "pai": "4",
+      "tipo_original": "Indicador",
+      "linha_origem": 36,
+      "cargos_descricao_original": "Coordenadores de US SEAB: UBT",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.IV",
+      "nome": "4.4. Desempenho das Unidades - UCIS",
+      "pai": "4",
+      "tipo_original": "Indicador",
+      "linha_origem": 39,
+      "cargos_descricao_original": "Coordenadores de US SEAB: UCIS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.V",
+      "nome": "4.5. Desempenho das Unidades CECON",
+      "pai": "4",
+      "tipo_original": "Indicador",
+      "linha_origem": 42,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CECON",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VI",
+      "nome": "4.6. Desempenho das Unidades do Distrito Sanitário",
+      "pai": "4",
+      "tipo_original": "Indicador",
+      "linha_origem": 48,
+      "cargos_descricao_original": "Cargos de DS: GG, SnA, SnB1, SnB2",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII",
+      "nome": "4.7. Desempenho das Unidades de saúde MAC",
+      "pai": "4",
+      "tipo_original": "Indicador",
+      "linha_origem": 49,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "5.I",
+      "nome": "5.1. Proporção de óbitos infantis de residentes do Distrito Sanitário investigados e discutidos no período preconizado",
+      "pai": "5",
+      "tipo_original": "Subindicador",
+      "linha_origem": 58,
+      "cargos_descricao_original": "Cargos de DS: GG, SnA, SnB1",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "5.II",
+      "nome": "5.2. Proporção da Cobertura de imóveis visitados na base do Reconhecimento Geográfico (RG) do Distrito Sanitário para controle vetorial de arboviroses em cada ciclo de tratamento (6 ciclos anual)",
+      "pai": "5",
+      "tipo_original": "Subindicador",
+      "linha_origem": 59,
+      "cargos_descricao_original": "Cargos de DS: GG, SnA, SnB1",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "5.III",
+      "nome": "5.3. Proporção de licenças sanitárias de serviços de saúde de alto risco de competência distrital emitidas no período preconizado",
+      "pai": "5",
+      "tipo_original": "Subindicador",
+      "linha_origem": 60,
+      "cargos_descricao_original": "Cargos de DS: GG, SnA, SnB1",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "3.I.1",
+      "nome": "3.1.1 Satisfação do Usuário - USF, UBT e UBT MISTA",
+      "pai": "3.I",
+      "tipo_original": "Sub-subindicador",
+      "linha_origem": 12,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF, UBT e UBT MISTA",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "3.I.2",
+      "nome": "3.1.2 Satisfação do Usuário - CAPS e CECON",
+      "pai": "3.I",
+      "tipo_original": "Sub-subindicador",
+      "linha_origem": 13,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS e CECON",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "3.I.3",
+      "nome": "3.1.3 Satisfação do Usuário - UCIS",
+      "pai": "3.I",
+      "tipo_original": "Sub-subindicador",
+      "linha_origem": 14,
+      "cargos_descricao_original": "Coordenadores de US SEAB: UCIS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "3.I.4",
+      "nome": "3.1.4 Satisfação do Usuário - MAC",
+      "pai": "3.I",
+      "tipo_original": "Sub-subindicador",
+      "linha_origem": 15,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.I.1",
+      "nome": "4.1.1. Proporção de gestantes com pelo menos 6 (seis) consultas pré-natal realizadas, sendo a 1ª (primeira) até a 12ª (décima segunda) semana de gestação",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 18,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "5.000",
+      "peso_excepcional_planilha_pct": "5.000"
+    },
+    {
+      "codigo": "4.I.2",
+      "nome": "4.1.2. Proporção de gestantes com realização de exames para sífilis e HIV",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 19,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "5.000",
+      "peso_excepcional_planilha_pct": "5.000"
+    },
+    {
+      "codigo": "4.I.3",
+      "nome": "4.1.3. Proporção de gestantes com atendimento odontológico realizado",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 20,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "10.000",
+      "peso_excepcional_planilha_pct": "10.000"
+    },
+    {
+      "codigo": "4.I.4",
+      "nome": "4.1.4. Proporção de mulheres com coleta de citopatológico",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 21,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "5.000",
+      "peso_excepcional_planilha_pct": "5.000"
+    },
+    {
+      "codigo": "4.I.5",
+      "nome": "4.1.5. Proporção de crianças de 1 (um) ano de idade vacinadas na APS contra Difteria, Tétano, Coqueluche, Hepatite B, infecções causadas por haemophilus influenza e tipo b Poliomielite inativada",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 22,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "10.000",
+      "peso_excepcional_planilha_pct": "10.000"
+    },
+    {
+      "codigo": "4.I.6",
+      "nome": "4.1.6. Proporção de pessoas com hipertensão, com consulta e pressão arterial aferida no semestre",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 23,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "10.000",
+      "peso_excepcional_planilha_pct": "10.000"
+    },
+    {
+      "codigo": "4.I.7",
+      "nome": "4.1.7. Proporção de pessoas com diabetes, com consulta e hemoglobina glicada solicitada no semestre",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 24,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "5.000",
+      "peso_excepcional_planilha_pct": "5.000"
+    },
+    {
+      "codigo": "4.I.8",
+      "nome": "4.1.8. Proporção de cadastro da população adscrita",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 25,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "15.000",
+      "peso_excepcional_planilha_pct": "15.000"
+    },
+    {
+      "codigo": "4.I.9",
+      "nome": "4.1.9. Proporção de pessoas visitadas pelo agente comunitário de saúde (ACS) do total de pessoas cadastradas",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 26,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "10.000",
+      "peso_excepcional_planilha_pct": "10.000"
+    },
+    {
+      "codigo": "4.I.10",
+      "nome": "4.1.10. Proporção de consultas realizadas pelos profissionais médico(a), enfermeiro(a) e cirurgião(ã) dentista",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 27,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "15.000",
+      "peso_excepcional_planilha_pct": "15.000"
+    },
+    {
+      "codigo": "4.I.11",
+      "nome": "4.1.11. Proporção de casos novos de Tuberculose testados para HIV",
+      "pai": "4.I",
+      "tipo_original": "Subindicador",
+      "linha_origem": 28,
+      "cargos_descricao_original": "Coordenadores de US SEAB: USF e UBT MISTA",
+      "peso_portaria_documentado_pct": "10.000",
+      "peso_excepcional_planilha_pct": "10.000"
+    },
+    {
+      "codigo": "4.II.1",
+      "nome": "4.2.1. Proporção de turnos com acolhimento implantado",
+      "pai": "4.II",
+      "tipo_original": "Subindicador",
+      "linha_origem": 30,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.II.2",
+      "nome": "4.2.2. Número de Procedimento por usuário",
+      "pai": "4.II",
+      "tipo_original": "Subindicador",
+      "linha_origem": 31,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.II.3",
+      "nome": "4.2.3. Proporção de atividades coletivas realizadas",
+      "pai": "4.II",
+      "tipo_original": "Subindicador",
+      "linha_origem": 32,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.II.4",
+      "nome": "4.2.4. Proporção de ações para fortalecimento de vínculo com o território",
+      "pai": "4.II",
+      "tipo_original": "Subindicador",
+      "linha_origem": 33,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.II.5",
+      "nome": "4.2.5. Funcionamento do Conselho de Unidade",
+      "pai": "4.II",
+      "tipo_original": "Subindicador",
+      "linha_origem": 34,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.II.6",
+      "nome": "4.2.6. Proporção de Equipes de Saúde da Família matriciadas",
+      "pai": "4.II",
+      "tipo_original": "Subindicador",
+      "linha_origem": 35,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CAPS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.III.1",
+      "nome": "4.3.1 Proporção de atendimentos médicos realizado na UBT",
+      "pai": "4.III",
+      "tipo_original": "Subindicador",
+      "linha_origem": 37,
+      "cargos_descricao_original": "Coordenadores de US SEAB: UBT",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.III.2",
+      "nome": "4.3.2. Proporção de implantação dos serviços da Carteira de Serviços na UBT",
+      "pai": "4.III",
+      "tipo_original": "Subindicador",
+      "linha_origem": 38,
+      "cargos_descricao_original": "Coordenadores de US SEAB: UBT",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.IV.1",
+      "nome": "Média mensal de atendimentos dos profissionais de saúde - UCIS",
+      "pai": "4.IV",
+      "tipo_original": "Subindicador",
+      "linha_origem": 40,
+      "cargos_descricao_original": "Coordenadores de US SEAB: UCIS",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.IV.2",
+      "nome": "Média mensal de atendimentos dos profissionais de saúde - MAC 1 e 2",
+      "pai": "4.IV",
+      "tipo_original": "Subindicador",
+      "linha_origem": 41,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC 1 e 2",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.V.1",
+      "nome": "4.5.1. Ações de promoção de espaços de trocas e compartilhamento de saberes e cuidados entre os participantes do Centro de Convivência",
+      "pai": "4.V",
+      "tipo_original": "Subindicador",
+      "linha_origem": 43,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CECON",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.V.2",
+      "nome": "4.5.2. Percentual de ações de interlocução com o território (como ações da equipe no território, atividades de articulação e planejamento de atividades, Ações para Fortalecimento da RAPS e da Rede Intersetorial",
+      "pai": "4.V",
+      "tipo_original": "Subindicador",
+      "linha_origem": 44,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CECON",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.V.3",
+      "nome": "4.5.3. Número de ações de articulação de rede para profissionalização, capacitação, qualificação ou geração de renda direcionada aos (as) usuários(as)",
+      "pai": "4.V",
+      "tipo_original": "Subindicador",
+      "linha_origem": 45,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CECON",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.V.4",
+      "nome": "4.5.4. Número de Acolhimentos Iniciais realizados por turno",
+      "pai": "4.V",
+      "tipo_original": "Subindicador",
+      "linha_origem": 46,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CECON",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.V.5",
+      "nome": "4.5.5. Proporção de atividades coletivas realizadas (Quantidade de atividades em grupo realizadas)",
+      "pai": "4.V",
+      "tipo_original": "Subindicador",
+      "linha_origem": 47,
+      "cargos_descricao_original": "Coordenadores de US SEAB: CECON",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII.1.1",
+      "nome": "4.7.1.1. Proporção de atendimento médico realizado na unidade de saúde MAC",
+      "pai": "4.VII",
+      "tipo_original": "Subindicador",
+      "linha_origem": 50,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII.1.2",
+      "nome": "4.7.1.2. Proporção de atendimento não médico realizado na unidade de saúde MAC",
+      "pai": "4.VII",
+      "tipo_original": "Subindicador",
+      "linha_origem": 51,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII.1.3",
+      "nome": "4.7.1.3. Proporção de exames realizados na unidade de saúde MAC",
+      "pai": "4.VII",
+      "tipo_original": "Subindicador",
+      "linha_origem": 52,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII.2.1",
+      "nome": "4.7.2.1. Tempo de espera para atendimento por classificação de risco",
+      "pai": "4.VII",
+      "tipo_original": "Subindicador",
+      "linha_origem": 53,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII.2.2",
+      "nome": "4.7.2.2. Tempo de permanência",
+      "pai": "4.VII",
+      "tipo_original": "Subindicador",
+      "linha_origem": 54,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII.3.1",
+      "nome": "4.7.3.1. % de partos normais do número de partos totais realizados",
+      "pai": "4.VII",
+      "tipo_original": "Subindicador",
+      "linha_origem": 55,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    },
+    {
+      "codigo": "4.VII.3.2",
+      "nome": "4.7.3.2. Número de partos normais realizados no Centro de Parto Normal (para as maternidades com CPN intra-hospitalar Tipo 2, conforme estabelecido em Portaria MS nº 11 de 07 de janeiro de 2015)",
+      "pai": "4.VII",
+      "tipo_original": "Subindicador",
+      "linha_origem": 56,
+      "cargos_descricao_original": "Coordenadores de US SERMAC: MAC",
+      "peso_portaria_documentado_pct": null,
+      "peso_excepcional_planilha_pct": null
+    }
+  ],
+  "pesos_principais": {
+    "USF": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "40.000"
+    },
+    "UBT": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "40.000"
+    },
+    "UBT_MISTA": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "40.000"
+    },
+    "CAPS": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "40.000"
+    },
+    "CECON": {
+      "2": "30.000",
+      "3": "30.000",
+      "4": "40.000"
+    },
+    "UCIS": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "40.000"
+    },
+    "MAC": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "40.000"
+    },
+    "GG": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "20.000",
+      "5": "20.000"
+    },
+    "SNA": {
+      "1": "20.000",
+      "2": "20.000",
+      "3": "20.000",
+      "4": "20.000",
+      "5": "20.000"
+    },
+    "SNB1": {
+      "1": "20.000",
+      "3": "20.000",
+      "4": "30.000",
+      "5": "30.000"
+    },
+    "SNB2": {
+      "2": "40.000",
+      "3": "30.000",
+      "4": "30.000"
+    }
+  }
+}
