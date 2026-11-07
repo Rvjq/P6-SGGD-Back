@@ -12,7 +12,6 @@ banco PostgreSQL. Um componente só usa outro pelo módulo público `apps/<compo
 ## Configuração
 
 ```bash
-cd backend
 python -m venv .venv
 # Windows: .venv\Scripts\activate    Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
@@ -30,10 +29,11 @@ Variáveis (`backend/.env`, que não vai para o Git):
 | `POSTGRES_HOST`, `POSTGRES_PORT` | não (padrão `localhost`, `5432`) | Servidor |
 
 Criar o banco no PostgreSQL (exemplo, como administrador do servidor):
+Caso não tenha PostgreSQL ([Guias](https://www.postgresql.org/download/))
 
 ```sql
-CREATE ROLE sggd LOGIN PASSWORD 'senha123' CREATEDB;  -- CREATEDB: para o banco de testes
-CREATE DATABASE sggd OWNER sggd;
+CREATE ROLE sggd_admin LOGIN PASSWORD 'senha123' CREATEDB;  -- CREATEDB: para o banco de testes
+CREATE DATABASE sggd_db OWNER sggd_admin;
 ```
 
 ## Comandos

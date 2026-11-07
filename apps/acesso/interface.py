@@ -19,7 +19,7 @@ Uso fora de views (ex.: services.py):
         raise PermissionDenied
 
 Ter a permissão não basta para operações sobre dados de uma pessoa (ex.: o
-Avaliado só consulta a própria pontuação): o componente dono também precisa
+Consultador consulta apenas resultados no escopo autorizado): o componente dono também precisa
 verificar o escopo, que ainda não está definido.
 """
 
