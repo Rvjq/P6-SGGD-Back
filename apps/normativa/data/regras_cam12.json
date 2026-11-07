@@ -1,0 +1,2425 @@
+{
+  "versao": "CAM 1.2",
+  "fonte": "Portaria Conjunta 001/2024, DOM Recife 131, pp. 5–10 e planilha anonimizada CAM 1.2 (10/02/2025)",
+  "observacao": "CAM 1.2 é rótulo da planilha. As regras não equivalem a ato de confirmação da vigência. Todo código do catálogo foi mapeado, mas alguns requerem notas previamente tratadas ou validação institucional.",
+  "regras": {
+    "1": [
+      {
+        "categorias": [
+          "USF",
+          "UBT",
+          "UBT_MISTA",
+          "CAPS",
+          "UCIS",
+          "MAC"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(remessas registradas no prazo / remessas recebidas) x 100; 100% = nota 100, abaixo = nota 0.",
+        "fonte_dados": "Hórus",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ],
+          "dados": "numerador, denominador",
+          "prazo_dias_uteis": 2
+        }
+      },
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(unidades elegíveis que cumpriram a meta / total das unidades elegíveis) x 100; faixas distritais 0/50/75/100.",
+        "fonte_dados": "Hórus / consolidado distrital",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 70,
+              "nota": 0
+            },
+            {
+              "min": 70,
+              "max": 85,
+              "nota": 50
+            },
+            {
+              "min": 85,
+              "max": 100,
+              "nota": 75
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ],
+          "dados": "numerador (unidades atingidas), denominador (unidades elegíveis)",
+          "tipos_elegiveis": [
+            "USF",
+            "UBT",
+            "UBT_MISTA",
+            "CAPS",
+            "UCIS"
+          ]
+        }
+      }
+    ],
+    "2": [
+      {
+        "categorias": [
+          "USF",
+          "UBT",
+          "UBT_MISTA",
+          "CAPS",
+          "CECON",
+          "UCIS",
+          "MAC"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média simples das quatro notas dos subindicadores; conversão final <50=0, 50–<75=50 e >=75=100.",
+        "fonte_dados": "Colmeia, CNES, SEGTES e planilhas",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5–6.",
+        "parametros": {
+          "operador": "media_faixas",
+          "status": "CALCULAVEL",
+          "subindicadores": [
+            "2.1",
+            "2.2",
+            "2.3",
+            "2.4"
+          ],
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ],
+          "dados": "notas dos quatro subindicadores"
+        }
+      },
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB2"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média das notas finais de Gestão do Trabalho das unidades elegíveis do distrito.",
+        "fonte_dados": "Consolidados Gestão do Trabalho",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 6.",
+        "parametros": {
+          "operador": "media",
+          "status": "CALCULAVEL",
+          "dados": "notas de unidades do distrito",
+          "tipos_elegiveis": [
+            "USF",
+            "UBT",
+            "UBT_MISTA",
+            "CAPS",
+            "CECON",
+            "UCIS"
+          ]
+        }
+      }
+    ],
+    "2.1": [
+      {
+        "categorias": [
+          "USF"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(mobilidades regulares / mobilidades totais) x100; nota 100 apenas com 100%.",
+        "fonte_dados": "SEGTES / CNES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(mobilidades regulares / mobilidades totais) x100; nota 100 apenas com 100%.",
+        "fonte_dados": "SEGTES / CNES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UBT_MISTA"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(mobilidades regulares / mobilidades totais) x100; nota 100 apenas com 100%.",
+        "fonte_dados": "SEGTES / CNES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(mobilidades regulares / mobilidades totais) x100; nota 100 apenas com 100%.",
+        "fonte_dados": "SEGTES / CNES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(mobilidades regulares / mobilidades totais) x100; nota 100 apenas com 100%.",
+        "fonte_dados": "SEGTES / CNES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(mobilidades regulares / mobilidades totais) x100; nota 100 apenas com 100%.",
+        "fonte_dados": "SEGTES / CNES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(mobilidades regulares / mobilidades totais) x100; nota 100 apenas com 100%.",
+        "fonte_dados": "SEGTES / CNES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      }
+    ],
+    "2.2": [
+      {
+        "categorias": [
+          "USF"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 0,
+        "meta_comparador": "MENOR_IGUAL",
+        "meta_unidade": "ocorrências",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Número de abonos sem justificativa; 0 ocorrência =100, >=1 =0.",
+        "fonte_dados": "SEGTES / Colmeia",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1,
+              "nota": 100
+            },
+            {
+              "min": 1,
+              "nota": 0
+            }
+          ],
+          "dados": "valor (número de abonos)"
+        }
+      },
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 0,
+        "meta_comparador": "MENOR_IGUAL",
+        "meta_unidade": "ocorrências",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Número de abonos sem justificativa; 0 ocorrência =100, >=1 =0.",
+        "fonte_dados": "SEGTES / Colmeia",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1,
+              "nota": 100
+            },
+            {
+              "min": 1,
+              "nota": 0
+            }
+          ],
+          "dados": "valor (número de abonos)"
+        }
+      },
+      {
+        "categorias": [
+          "UBT_MISTA"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 0,
+        "meta_comparador": "MENOR_IGUAL",
+        "meta_unidade": "ocorrências",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Número de abonos sem justificativa; 0 ocorrência =100, >=1 =0.",
+        "fonte_dados": "SEGTES / Colmeia",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1,
+              "nota": 100
+            },
+            {
+              "min": 1,
+              "nota": 0
+            }
+          ],
+          "dados": "valor (número de abonos)"
+        }
+      },
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 0,
+        "meta_comparador": "MENOR_IGUAL",
+        "meta_unidade": "ocorrências",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Número de abonos sem justificativa; 0 ocorrência =100, >=1 =0.",
+        "fonte_dados": "SEGTES / Colmeia",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1,
+              "nota": 100
+            },
+            {
+              "min": 1,
+              "nota": 0
+            }
+          ],
+          "dados": "valor (número de abonos)"
+        }
+      },
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 0,
+        "meta_comparador": "MENOR_IGUAL",
+        "meta_unidade": "ocorrências",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Número de abonos sem justificativa; 0 ocorrência =100, >=1 =0.",
+        "fonte_dados": "SEGTES / Colmeia",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1,
+              "nota": 100
+            },
+            {
+              "min": 1,
+              "nota": 0
+            }
+          ],
+          "dados": "valor (número de abonos)"
+        }
+      },
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 0,
+        "meta_comparador": "MENOR_IGUAL",
+        "meta_unidade": "ocorrências",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Número de abonos sem justificativa; 0 ocorrência =100, >=1 =0.",
+        "fonte_dados": "SEGTES / Colmeia",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1,
+              "nota": 100
+            },
+            {
+              "min": 1,
+              "nota": 0
+            }
+          ],
+          "dados": "valor (número de abonos)"
+        }
+      },
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 0,
+        "meta_comparador": "MENOR_IGUAL",
+        "meta_unidade": "ocorrências",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Número de abonos sem justificativa; 0 ocorrência =100, >=1 =0.",
+        "fonte_dados": "SEGTES / Colmeia",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1,
+              "nota": 100
+            },
+            {
+              "min": 1,
+              "nota": 0
+            }
+          ],
+          "dados": "valor (número de abonos)"
+        }
+      }
+    ],
+    "2.3": [
+      {
+        "categorias": [
+          "USF"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(documentos no prazo / documentos totais) x100; <50=0, 50–<75=50, >=75=100.",
+        "fonte_dados": "SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(documentos no prazo / documentos totais) x100; <50=0, 50–<75=50, >=75=100.",
+        "fonte_dados": "SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UBT_MISTA"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(documentos no prazo / documentos totais) x100; <50=0, 50–<75=50, >=75=100.",
+        "fonte_dados": "SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(documentos no prazo / documentos totais) x100; <50=0, 50–<75=50, >=75=100.",
+        "fonte_dados": "SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(documentos no prazo / documentos totais) x100; <50=0, 50–<75=50, >=75=100.",
+        "fonte_dados": "SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(documentos no prazo / documentos totais) x100; <50=0, 50–<75=50, >=75=100.",
+        "fonte_dados": "SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(documentos no prazo / documentos totais) x100; <50=0, 50–<75=50, >=75=100.",
+        "fonte_dados": "SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 50,
+              "nota": 0
+            },
+            {
+              "min": 50,
+              "max": 75,
+              "nota": 50
+            },
+            {
+              "min": 75,
+              "nota": 100
+            }
+          ]
+        }
+      }
+    ],
+    "2.4": [
+      {
+        "categorias": [
+          "USF"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(atestados enviados corretamente / afastamentos por atestado) x100; 100=100, abaixo=0.",
+        "fonte_dados": "SEI / UPMST / SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(atestados enviados corretamente / afastamentos por atestado) x100; 100=100, abaixo=0.",
+        "fonte_dados": "SEI / UPMST / SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UBT_MISTA"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(atestados enviados corretamente / afastamentos por atestado) x100; 100=100, abaixo=0.",
+        "fonte_dados": "SEI / UPMST / SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(atestados enviados corretamente / afastamentos por atestado) x100; 100=100, abaixo=0.",
+        "fonte_dados": "SEI / UPMST / SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(atestados enviados corretamente / afastamentos por atestado) x100; 100=100, abaixo=0.",
+        "fonte_dados": "SEI / UPMST / SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(atestados enviados corretamente / afastamentos por atestado) x100; 100=100, abaixo=0.",
+        "fonte_dados": "SEI / UPMST / SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "(atestados enviados corretamente / afastamentos por atestado) x100; 100=100, abaixo=0.",
+        "fonte_dados": "SEI / UPMST / SEGTES",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 5.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 100,
+              "nota": 0
+            },
+            {
+              "min": 100,
+              "nota": 100
+            }
+          ]
+        }
+      }
+    ],
+    "3": [
+      {
+        "categorias": [
+          "USF",
+          "UBT",
+          "UBT_MISTA",
+          "CAPS",
+          "CECON",
+          "UCIS",
+          "MAC"
+        ],
+        "metodo": "MEDIA_PONDERADA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "0,8 x ASU + 0,2 x resposta aos questionários, conforme a Portaria 001/2024.",
+        "fonte_dados": "Recife Monitora / planilhas ASU",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 6–7. ATENÇÃO: planilha CAM 1.2 registra peso atual excepcional 100%/0%; precisa de decisão da CAM antes de homologar cálculo.",
+        "parametros": {
+          "operador": "media_ponderada",
+          "status": "REVISAR",
+          "subindicadores": [
+            "3.I",
+            "3.II"
+          ],
+          "pesos": [
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1",
+          "SNB2"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média dos índices de satisfação das unidades elegíveis do distrito.",
+        "fonte_dados": "Recife Monitora / planilhas ASU",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 7.",
+        "parametros": {
+          "operador": "media",
+          "status": "CALCULAVEL",
+          "dados": "notas ASU de unidades",
+          "tipos_elegiveis": [
+            "USF",
+            "UBT",
+            "UBT_MISTA",
+            "CAPS",
+            "CECON",
+            "UCIS"
+          ]
+        }
+      }
+    ],
+    "3.I": [
+      {
+        "categorias": [
+          "USF",
+          "UBT",
+          "UBT_MISTA",
+          "CAPS",
+          "CECON",
+          "UCIS",
+          "MAC"
+        ],
+        "metodo": "NOTA_INFORMADA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "ASU da unidade conforme método específico da categoria; resultado normalizado alimenta 3.",
+        "fonte_dados": "Recife Monitora / ASU",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 6–7. O lançamento é a nota final ASU produzida a partir das respostas dos questionários, sem coletar respostas individualizadas no SGGD.",
+        "parametros": {
+          "operador": "nota_informada",
+          "status": "ENTRADA_TRATADA"
+        }
+      }
+    ],
+    "3.II": [
+      {
+        "categorias": [
+          "USF",
+          "UBT",
+          "UBT_MISTA",
+          "CAPS",
+          "CECON",
+          "UCIS",
+          "MAC"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": 3,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "BIMESTRAL",
+        "formula_descritiva": "(questionários respondidos / enviados)x100; <1,5=0, 1,5–<3=50, >=3=100.",
+        "fonte_dados": "Questionários ASU",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 7.",
+        "parametros": {
+          "operador": "proporcao_faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 1.5,
+              "nota": 0
+            },
+            {
+              "min": 1.5,
+              "max": 3,
+              "nota": 50
+            },
+            {
+              "min": 3,
+              "nota": 100
+            }
+          ]
+        }
+      }
+    ],
+    "3.I.1": [
+      {
+        "categorias": [
+          "USF",
+          "UBT",
+          "UBT_MISTA"
+        ],
+        "metodo": "NOTA_INFORMADA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "BIMESTRAL",
+        "formula_descritiva": "Índice ASU das equipes: questões por NPS, conversão por zona e média das equipes da unidade.",
+        "fonte_dados": "Recife Monitora",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 7. Requer dados de perguntas e equipes; MVP recebe nota final processada. Não inferir NPS a partir de uma porcentagem genérica.",
+        "parametros": {
+          "operador": "nota_informada",
+          "status": "ENTRADA_TRATADA"
+        }
+      }
+    ],
+    "3.I.2": [
+      {
+        "categorias": [
+          "CAPS",
+          "CECON"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "BIMESTRAL",
+        "formula_descritiva": "Média de pontuações de respostas ao questionário (escala final de 1 a 25) convertida para nota.",
+        "fonte_dados": "Planilha ASU CAPS/CECON",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 7.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 6,
+              "nota": 20
+            },
+            {
+              "min": 6,
+              "max": 11,
+              "nota": 40
+            },
+            {
+              "min": 11,
+              "max": 16,
+              "nota": 60
+            },
+            {
+              "min": 16,
+              "max": 21,
+              "nota": 80
+            },
+            {
+              "min": 21,
+              "nota": 100
+            }
+          ],
+          "dados": "valor (pontuação média das respostas)"
+        }
+      }
+    ],
+    "3.I.3": [
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "BIMESTRAL",
+        "formula_descritiva": "Média da avaliação por questionário UCIS (escala final de 1 a 45), convertida para nota.",
+        "fonte_dados": "Planilha ASU UCIS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 6–7.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 10,
+              "nota": 20
+            },
+            {
+              "min": 10,
+              "max": 19,
+              "nota": 40
+            },
+            {
+              "min": 19,
+              "max": 28,
+              "nota": 60
+            },
+            {
+              "min": 28,
+              "max": 37,
+              "nota": 80
+            },
+            {
+              "min": 37,
+              "nota": 100
+            }
+          ],
+          "dados": "valor (pontuação média das respostas)"
+        }
+      }
+    ],
+    "3.I.4": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "BIMESTRAL",
+        "formula_descritiva": "Média da avaliação por questionário MAC (escala final de 1 a 45), convertida para nota.",
+        "fonte_dados": "Planilha ASU MAC",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 6–7. Texto normativo contém inconsistências na escala de respostas; confirmar entrada já consolidada.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "REVISAR",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 10,
+              "nota": 20
+            },
+            {
+              "min": 10,
+              "max": 19,
+              "nota": 40
+            },
+            {
+              "min": 19,
+              "max": 28,
+              "nota": 60
+            },
+            {
+              "min": 28,
+              "max": 37,
+              "nota": 80
+            },
+            {
+              "min": 37,
+              "nota": 100
+            }
+          ],
+          "dados": "valor (pontuação média das respostas)"
+        }
+      }
+    ],
+    "4": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota derivada da variante 4.I do Desempenho; peso externo pela matriz da categoria.",
+        "fonte_dados": "",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9.",
+        "parametros": {
+          "operador": "identidade",
+          "status": "CALCULAVEL",
+          "origem": "4.I"
+        }
+      },
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota derivada da variante 4.II do Desempenho; peso externo pela matriz da categoria.",
+        "fonte_dados": "",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9.",
+        "parametros": {
+          "operador": "identidade",
+          "status": "CALCULAVEL",
+          "origem": "4.II"
+        }
+      },
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota derivada da variante 4.III do Desempenho; peso externo pela matriz da categoria.",
+        "fonte_dados": "",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9.",
+        "parametros": {
+          "operador": "identidade",
+          "status": "CALCULAVEL",
+          "origem": "4.III"
+        }
+      },
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota derivada da variante 4.IV do Desempenho; peso externo pela matriz da categoria.",
+        "fonte_dados": "",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9.",
+        "parametros": {
+          "operador": "identidade",
+          "status": "CALCULAVEL",
+          "origem": "4.IV"
+        }
+      },
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota derivada da variante 4.V do Desempenho; peso externo pela matriz da categoria.",
+        "fonte_dados": "",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9.",
+        "parametros": {
+          "operador": "identidade",
+          "status": "CALCULAVEL",
+          "origem": "4.V"
+        }
+      },
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota derivada da variante 4.VII do Desempenho; peso externo pela matriz da categoria.",
+        "fonte_dados": "",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9.",
+        "parametros": {
+          "operador": "identidade",
+          "status": "CALCULAVEL",
+          "origem": "4.VII"
+        }
+      },
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1",
+          "SNB2"
+        ],
+        "metodo": "ESPECIFICO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota derivada da variante 4.VI do Desempenho; peso externo pela matriz da categoria.",
+        "fonte_dados": "",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9.",
+        "parametros": {
+          "operador": "identidade",
+          "status": "CALCULAVEL",
+          "origem": "4.VI"
+        }
+      }
+    ],
+    "4.I": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "MEDIA_PONDERADA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Por equipe eSF: bloco dos sete primeiros itens x0,7; bloco dos quatro itens restantes x0,3. Média do índice das equipes da unidade.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8. Portaria usa 70%/30%; planilha traz subpesos divergentes. Aplicar fórmula portaria apenas após validação da CAM.",
+        "parametros": {
+          "operador": "indice_esf",
+          "status": "REVISAR",
+          "subindicadores": [
+            "4.I.1",
+            "4.I.2",
+            "4.I.3",
+            "4.I.4",
+            "4.I.5",
+            "4.I.6",
+            "4.I.7",
+            "4.I.8",
+            "4.I.9",
+            "4.I.10",
+            "4.I.11"
+          ],
+          "pesos_primeiro_grupo": [
+            10,
+            10,
+            20,
+            10,
+            20,
+            20,
+            10
+          ],
+          "peso_grupo_1": 70,
+          "pesos_segundo_grupo": [
+            30,
+            20,
+            30,
+            20
+          ],
+          "peso_grupo_2": 30,
+          "dados": "notas normalizadas por eSF e média das eSF"
+        }
+      }
+    ],
+    "4.II": [
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média simples de seis notas calculadas resultado/meta.",
+        "fonte_dados": "Planilha monitoramento CAPS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "media",
+          "status": "CALCULAVEL",
+          "subindicadores": [
+            "4.II.1",
+            "4.II.2",
+            "4.II.3",
+            "4.II.4",
+            "4.II.5",
+            "4.II.6"
+          ]
+        }
+      }
+    ],
+    "4.III": [
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média simples das duas notas resultado/meta.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "media",
+          "status": "CALCULAVEL",
+          "subindicadores": [
+            "4.III.1",
+            "4.III.2"
+          ]
+        }
+      }
+    ],
+    "4.IV": [
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média simples de resultados/meta de atividades coletivas e atendimentos individuais; correspondência com itens catalogados requer conferência.",
+        "fonte_dados": "Planilha E-SUS/SIA",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9. A planilha enumera item 4.IV.2 como MAC 1 e 2; a portaria descreve dois componentes UCIS. Não automatizar vínculo até sanear o catálogo.",
+        "parametros": {
+          "operador": "media",
+          "status": "REVISAR",
+          "subindicadores": [
+            "4.IV.1",
+            "4.IV.2"
+          ]
+        }
+      }
+    ],
+    "4.V": [
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média simples das cinco notas resultado/meta.",
+        "fonte_dados": "Planilha ASU-CECON",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "media",
+          "status": "CALCULAVEL",
+          "subindicadores": [
+            "4.V.1",
+            "4.V.2",
+            "4.V.3",
+            "4.V.4",
+            "4.V.5"
+          ]
+        }
+      }
+    ],
+    "4.VI": [
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1",
+          "SNB2"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média de desempenho das unidades elegíveis do distrito.",
+        "fonte_dados": "Consolidados de desempenho",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "media",
+          "status": "CALCULAVEL",
+          "tipos_elegiveis": [
+            "USF",
+            "UBT",
+            "UBT_MISTA",
+            "CAPS",
+            "UCIS",
+            "CECON"
+          ]
+        }
+      }
+    ],
+    "4.VII": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média das notas dos subindicadores de acordo com os serviços ofertados pela unidade MAC.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9. A seleção do subconjunto aplicável (ambulatorial/SPA/maternidade/CPN) depende dos serviços prestados pela unidade; não está modelada no Cadastro.",
+        "parametros": {
+          "operador": "media",
+          "status": "ENTRADA_TRATADA",
+          "subindicadores": [
+            "4.VII.1.1",
+            "4.VII.1.2",
+            "4.VII.1.3",
+            "4.VII.2.1",
+            "4.VII.2.2",
+            "4.VII.3.1",
+            "4.VII.3.2"
+          ]
+        }
+      }
+    ],
+    "4.I.1": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 45,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.2": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 60,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.3": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 60,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.4": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 40,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.5": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 95,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.6": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 50,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.7": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 50,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.8": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 85,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.9": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 70,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.10": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8. Subindicador composto de consultas médico/enfermeiro/dentista; confirmar composição e parâmetros antes de calcular.",
+        "parametros": {
+          "operador": "meta",
+          "status": "REVISAR",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.I.11": [
+      {
+        "categorias": [
+          "USF",
+          "UBT_MISTA"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 75,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota do subindicador = resultado percentual / meta percentual; cálculo ao nível de equipe.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual validado)"
+        }
+      }
+    ],
+    "4.II.1": [
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 90,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com parâmetros de produção específicos do serviço.",
+        "fonte_dados": "Planilha monitoramento CAPS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.II.2": [
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 90,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com parâmetros de produção específicos do serviço.",
+        "fonte_dados": "Planilha monitoramento CAPS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.II.3": [
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com parâmetros de produção específicos do serviço.",
+        "fonte_dados": "Planilha monitoramento CAPS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.II.4": [
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com parâmetros de produção específicos do serviço.",
+        "fonte_dados": "Planilha monitoramento CAPS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.II.5": [
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com parâmetros de produção específicos do serviço.",
+        "fonte_dados": "Planilha monitoramento CAPS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.II.6": [
+      {
+        "categorias": [
+          "CAPS"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com parâmetros de produção específicos do serviço.",
+        "fonte_dados": "Planilha monitoramento CAPS",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.III.1": [
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.III.2": [
+      {
+        "categorias": [
+          "UBT"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 100,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual.",
+        "fonte_dados": "PEC / SISAB",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.IV.1": [
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota de atividades coletivas = resultado percentual / meta 80%, após cálculo por unidade UCIS.",
+        "fonte_dados": "Planilha E-SUS/SIA",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9. Nome do item na planilha difere do indicador normativo; exige mapeamento.",
+        "parametros": {
+          "operador": "meta",
+          "status": "REVISAR",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.IV.2": [
+      {
+        "categorias": [
+          "UCIS"
+        ],
+        "metodo": "NAO_CONFIGURADO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "A portaria indica atendimentos individuais (meta 80%), mas catálogo desta linha identifica MAC 1 e 2.",
+        "fonte_dados": "Planilha E-SUS/SIA",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 8–9. Não foi possível vincular com segurança a fórmula UCIS à linha 4.IV.2; necessita correção documental.",
+        "parametros": {
+          "operador": "nao_configurado",
+          "status": "REVISAR"
+        }
+      }
+    ],
+    "4.V.1": [
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 90,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual.",
+        "fonte_dados": "Planilha ASU-CECON",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.V.2": [
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual.",
+        "fonte_dados": "Planilha ASU-CECON",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.V.3": [
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual.",
+        "fonte_dados": "Planilha ASU-CECON",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.V.4": [
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 90,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual.",
+        "fonte_dados": "Planilha ASU-CECON",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.V.5": [
+      {
+        "categorias": [
+          "CECON"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual.",
+        "fonte_dados": "Planilha ASU-CECON",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.VII.1.1": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta 80%, para serviços ambulatoriais MAC.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.VII.1.2": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta 80%, para serviços ambulatoriais MAC.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.VII.1.3": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta 80%, para serviços ambulatoriais MAC.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.VII.2.1": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = proporção de pacientes amarelos/vermelhos atendidos dentro do tempo / meta 80%.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual)"
+        }
+      }
+    ],
+    "4.VII.2.2": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "NAO_CONFIGURADO",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Tempo de permanência: 100% com até 3 dias (maternidade) ou até 4 dias (pediatria); demais gradações não estabelecidas claramente.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9. Depende do tipo de leito; não atribuir nota automaticamente quando superar o limite.",
+        "parametros": {
+          "operador": "nao_configurado",
+          "status": "REVISAR"
+        }
+      }
+    ],
+    "4.VII.3.1": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 70,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Percentual de partos normais: <65=0, 65–<70=50, >=70=100.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 65,
+              "nota": 0
+            },
+            {
+              "min": 65,
+              "max": 70,
+              "nota": 50
+            },
+            {
+              "min": 70,
+              "nota": 100
+            }
+          ],
+          "dados": "valor (percentual de partos normais)"
+        }
+      }
+    ],
+    "4.VII.3.2": [
+      {
+        "categorias": [
+          "MAC"
+        ],
+        "metodo": "FAIXAS",
+        "meta_valor": 70,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "partos",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Partos no CPN: <60=0, 60–<70=75, >=70=100.",
+        "fonte_dados": "SISREG",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9.",
+        "parametros": {
+          "operador": "faixas",
+          "status": "CALCULAVEL",
+          "faixas": [
+            {
+              "min": 0,
+              "max": 60,
+              "nota": 0
+            },
+            {
+              "min": 60,
+              "max": 70,
+              "nota": 75
+            },
+            {
+              "min": 70,
+              "nota": 100
+            }
+          ],
+          "dados": "valor (quantidade partos CPN)"
+        }
+      }
+    ],
+    "5": [
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1"
+        ],
+        "metodo": "MEDIA",
+        "meta_valor": null,
+        "meta_comparador": "",
+        "meta_unidade": "",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Média simples das notas dos três subindicadores de Vigilância em Saúde.",
+        "fonte_dados": "SIM / SisPNCD / Agiles",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9–10.",
+        "parametros": {
+          "operador": "media",
+          "status": "CALCULAVEL",
+          "subindicadores": [
+            "5.I",
+            "5.II",
+            "5.III"
+          ]
+        }
+      }
+    ],
+    "5.I": [
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 70,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com exceções de denominador zero previstas na norma.",
+        "fonte_dados": "SIM",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9–10.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual) ou numerador/denominador",
+          "denominador_zero": "SEM_OBITOS_NOTA_100"
+        }
+      }
+    ],
+    "5.II": [
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com exceções de denominador zero previstas na norma.",
+        "fonte_dados": "SisPNCD",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9–10.",
+        "parametros": {
+          "operador": "meta",
+          "status": "CALCULAVEL",
+          "dados": "valor (resultado percentual) ou numerador/denominador"
+        }
+      }
+    ],
+    "5.III": [
+      {
+        "categorias": [
+          "GG",
+          "SNA",
+          "SNB1"
+        ],
+        "metodo": "PROPORCAO",
+        "meta_valor": 80,
+        "meta_comparador": "MAIOR_IGUAL",
+        "meta_unidade": "%",
+        "periodicidade": "MENSAL",
+        "formula_descritiva": "Nota = resultado percentual / meta percentual, com exceções de denominador zero previstas na norma.",
+        "fonte_dados": "Agiles",
+        "observacoes": "Portaria Conjunta 001/2024, DOM 131, págs. 9–10. Com denominador 0 e processos em aberto, nota 0; sem processos em aberto a regra não está especificada no documento.",
+        "parametros": {
+          "operador": "meta",
+          "status": "REVISAR",
+          "dados": "valor (resultado percentual) ou numerador/denominador",
+          "denominador_zero": "PROCESSOS_ABERTOS_NOTA_ZERO"
+        }
+      }
+    ]
+  }
+}
