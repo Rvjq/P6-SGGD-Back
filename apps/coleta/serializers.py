@@ -44,6 +44,14 @@ class AutorizacaoSerializer(ModeloValidado):
 
 
 class RegistroSerializer(ModeloValidado):
+    indicador_codigo = serializers.CharField(source="indicador.codigo", read_only=True)
+    indicador_nome = serializers.CharField(source="indicador.nome", read_only=True)
+    categoria_codigo = serializers.CharField(source="categoria.codigo", read_only=True)
+    unidade_nome = serializers.CharField(source="unidade.nome", read_only=True, allow_null=True)
+    distrito_nome = serializers.CharField(source="distrito.nome", read_only=True, allow_null=True)
+    registrado_por_email = serializers.EmailField(source="registrado_por.email", read_only=True)
+    competencia_mes = serializers.DateField(source="competencia.mes", read_only=True)
+
     class Meta:
         model = RegistroIndicador
         fields = (
@@ -51,6 +59,8 @@ class RegistroSerializer(ModeloValidado):
             "dados", "fonte", "observacoes", "situacao", "registrado_por",
             "homologado_por", "motivo_devolucao", "criado_em", "atualizado_em",
             "enviado_em", "decidido_em",
+            "indicador_codigo", "indicador_nome", "categoria_codigo", "unidade_nome",
+            "distrito_nome", "registrado_por_email", "competencia_mes",
         )
         read_only_fields = (
             "id", "situacao", "registrado_por", "homologado_por", "motivo_devolucao",

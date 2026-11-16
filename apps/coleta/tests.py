@@ -241,3 +241,34 @@ class ColetaAPITests(TestCase):
             {"unidade": self.outra_unidade.id}, format="json"
         )
         self.assertEqual(resposta.status_code, 400)
+
+
+    def test_opcoes_restritas_ao_registrador_e_a_competencia(self):
+        self.logar(self.reg)
+        resposta = self.api.get(f"/api/coleta/opcoes/?competencia={self.competencia.pk}")
+        self.assertEqual(resposta.status_code, 200, resposta.data)
+        escopos = resposta.data["escopos"]
+        self.assertEqual(len(escopos), 1)
+        self.assertEqual(escopos[0]["id"], self.unidade.pk)
+        self.assertEqual(escopos[0]["categoria"], self.cat_usf.pk)
+        self.assertTrue(any(x["id"] == self.indicador.pk for x in resposta.data["indicadores"]))
+        self.assertFalse(any(x["id"] == self.outro_indicador.pk for x in resposta.data["indicadores"]))
+        self.logar(self.cons)
+        self.assertEqual(self.api.get(f"/api/coleta/opcoes/?competencia={self.competencia.pk}").status_code, 403)
+
+    def test_opcoes_distritais_mostram_unidades_e_categorias_do_distrito(self):
+        AutorizacaoColeta.objects.create(usuario=self.outro, distrito=self.distrito)
+        self.logar(self.outro)
+        resposta = self.api.get(f"/api/coleta/opcoes/?competencia={self.competencia.pk}")
+        self.assertEqual(resposta.status_code, 200, resposta.data)
+        escopos = resposta.data["escopos"]
+        self.assertTrue(any(x["tipo"] == "UNIDADE" and x["id"] == self.unidade.pk for x in escopos))
+        self.assertFalse(any(x["tipo"] == "UNIDADE" and x["id"] == self.outra_unidade.pk for x in escopos))
+        self.assertTrue(any(x["tipo"] == "DISTRITO" and x["categoria_codigo"] == "GG" for x in escopos))
+
+    def test_resposta_registro_inclui_rotulos_somente_leitura(self):
+        resposta = self.criar_por()
+        self.assertEqual(resposta.status_code, 201, resposta.data)
+        self.assertEqual(resposta.data["indicador_nome"], "Medicamentos")
+        self.assertEqual(resposta.data["unidade_nome"], self.unidade.nome)
+        self.assertEqual(resposta.data["registrado_por_email"], self.reg.email)

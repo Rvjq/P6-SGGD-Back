@@ -17,6 +17,7 @@ class Usuario(AbstractUser):
     """
 
     email = models.EmailField("endereço de e-mail", blank=False)
+    cargo = models.CharField("cargo / função", max_length=120, blank=True)
 
     class Meta(AbstractUser.Meta):
         verbose_name = "usuário"

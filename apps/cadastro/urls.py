@@ -1,4 +1,6 @@
 """Rotas administrativas de cadastro: /api/cadastro/."""
+from django.urls import path
+from .painel_api import PainelCadastroView
 
 from rest_framework.routers import DefaultRouter
 
@@ -19,4 +21,4 @@ router.register("unidades", UnidadeViewSet, basename="unidade")
 router.register("avaliados", PessoaAvaliadaViewSet, basename="avaliado")
 router.register("responsabilidades", ResponsabilidadeViewSet, basename="responsabilidade")
 
-urlpatterns = router.urls
+urlpatterns = [path("painel/", PainelCadastroView.as_view(), name="painel-cadastro"), *router.urls]

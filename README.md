@@ -1,93 +1,58 @@
-# SGGD — Backend (Django)
+# SGGD — Backend Django
 
-Sistema de Gestão e Gratificação de Desempenho da **Secretaria de Saúde do Recife (SESAU)**. O recorte desta entrega é a avaliação de **gestores, supervisores e coordenadores**, utilizando como referência operacional a planilha **CAM 1.2** fornecida à equipe. Não calcula gratificações dos demais profissionais por exercerem atividades assistenciais.
+Backend do **Sistema de Gestão e Gratificação de Desempenho (SGGD)**, protótipo acadêmico voltado à coleta, revisão e futura apuração dos indicadores dos **gestores, supervisores e coordenadores** da Secretaria de Saúde do Recife (SESAU).
 
-> **Atenção às fontes:** “CAM 1.2” é a identificação da planilha recebida, não o nome oficial da portaria. A **Portaria Conjunta SESAU/SEPLAGTD nº 001, de 30/08/2024**, publicada no Diário Oficial nº 131 em 21/09/2024 (pp. 5–10), fundamenta parte das regras. Não foi comprovada a vigência atual da versão nem a equivalência integral entre planilha e portaria. Divergências estão identificadas e cálculos duvidosos não devem ser usados como resultados oficiais.
+O recorte funcional é a **CAM 1.2**, conforme planilha disponibilizada à equipe. A Portaria Conjunta SESAU/SEPLAGTD nº 001, de 30/08/2024 (Diário Oficial do Recife nº 131, 21/09/2024), é uma das referências. **Não foi comprovado que a planilha corresponde integralmente à portaria ou que suas regras estejam vigentes hoje.** O protótipo não produz resultado oficial de gratificação.
 
-## Situação do desenvolvimento (07/11/2026)
+## Tecnologias
 
-| Componente | Estado | O que existe |
+Python, **Django 5.2**, Django REST Framework 3.16, PostgreSQL, Psycopg 3 e `import-linter`. Dependências e limites de versão em `requirements.txt`. O frontend React + TypeScript está no repositório separado `P6-SGGD-Front`.
+
+## Componentes e estado atual
+
+| Componente | Disponível | Limite atual |
 | --- | --- | --- |
-| `acesso` | Implementado e testado | Login por e-mail/senha, sessão e CSRF; grupos, permissões e rotas protegidas. |
-| `cadastro` | Implementado e testado | Distritos, tipos de unidade, unidades, categorias, avaliados, responsabilidades e API administrativa. |
-| `normativa` | Modelos e importação testados | CAM 1.2 carregada, catálogo hierárquico, pesos, metas e regras; serviço de cálculo isolado. |
-| `coleta` | Pendente | Lançamento de resultados e homologação por competência. |
-| `apuracao` | Pendente | Orquestração dos resultados, consolidação por gestor e memória de cálculo. |
-| `publicacao`, `recurso`, `pagamento`, `auditoria` | Não entregues funcionalmente neste recorte | Módulos previstos na arquitetura original; implementação futura conforme escopo. |
+| `acesso` | Login por e-mail, sessão/CSRF, quatro papéis, permissões, consulta de usuários e administração restrita de contas operacionais | Configurador não pode criar superusuários ou alterar contas privilegiadas |
+| `cadastro` | Distritos, tipos e unidades, categorias, pessoas avaliadas, responsabilidades com vigência, APIs de cadastro e consulta | Pessoa avaliada não é necessariamente usuário do sistema |
+| `normativa` | Catálogo CAM 1.2, hierarquia de indicadores, metas/regras, pesos, importadores e funções de cálculo isoladas | Regras divergentes/indefinidas permanecem pendentes |
+| `coleta` | Competências mensais, autorizações, tarefas guiadas, rascunhos, envio, homologação, painéis de progresso | Ainda não efetua a apuração das notas individuais |
+| `apuracao` | Estrutura do app | Fluxo de apuração CAM 1.2 **não implementado** |
+| `auditoria`, `publicacao`, `recurso`, `pagamento` | Estrutura dos apps | Fora do fluxo operacional desta versão |
 
-Os testes locais das três primeiras áreas foram **executados e confirmados pela equipe**. O catálogo da Normativa está configurado no banco, mas **não existe ainda apuração ponta a ponta** de gratificação.
+### Conceitos essenciais
 
-## Requisitos e preparação
+- **Usuário:** pessoa com login e papéis de **Configurador**, **Registrador**, **Homologador** ou **Consultador**.
+- **Pessoa avaliada:** gestor, supervisor ou coordenador; pode existir sem login.
+- **Responsabilidade:** vínculo, com início e fim de vigência, entre pessoa avaliada e **uma unidade OU um distrito**.
+- **Categoria de avaliação:** para uma unidade, decorre do **tipo de unidade**; para o distrito, da função do gestor (`GG`, `SNA`, `SNB1`, `SNB2`). Não é um grupo de login.
+- **Coleta:** armazena informações dos indicadores de uma unidade ou distrito, sem duplicar dados para cada gestor.
+- **Apuração:** etapa futura que usará os dados homologados para avaliar cada pessoa conforme sua categoria.
 
-- Python **3.12 ou superior**, Django **5.2**, Django REST Framework **3.16** e PostgreSQL; as faixas efetivas de dependências estão em `requirements.txt`.
-- Ambiente virtual (`.venv`) e banco PostgreSQL configurado no `.env` a partir de `.env.example`.
-- Não comitar o `.env` nem senhas de teste.
+## Preparar o ambiente
 
-No PowerShell, a partir da pasta do backend (onde fica `manage.py`):
+Em `P6-SGGD-Back`, configure um PostgreSQL local e copie os valores apropriados de `.env.example` para `.env` (não versionar). No PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-# Configure .env e crie o banco PostgreSQL antes de prosseguir.
 python manage.py migrate
-python manage.py createsuperuser
+python manage.py check
 python manage.py runserver
 ```
 
-Painel técnico: <http://127.0.0.1:8000/admin/>. A criação de usuários funcionais no Django Admin ainda depende de ajustes no formulário de criação por e-mail; durante os testes, foram utilizados usuários criados por script local. **Não inserir senhas simples no repositório.**
+`DJANGO_SECRET_KEY` é obrigatório. Use `DJANGO_DEBUG=1` apenas em desenvolvimento. Se necessário, crie o administrador **técnico** com `python manage.py createsuperuser`. **Não conceda `is_staff` ao Configurador** apenas para ele usar suas telas; suas operações usam APIs próprias.
 
-## Organização do projeto
+## Comando único para a base Recife / CAM 1.2
 
-```text
-apps/
-├── acesso/       # Autenticação, autorização e interface de permissões
-├── cadastro/     # Estrutura organizacional, avaliados e responsabilidades
-├── normativa/    # Catálogo CAM 1.2, regras, pesos e cálculos isolados
-├── coleta/       # Pendente
-├── apuracao/     # Pendente
-├── auditoria/    # Pendente
-├── publicacao/   # Pendente
-├── recurso/      # Pendente
-└── pagamento/    # Pendente
-sggd/              # Configuração e URLs do projeto Django
+```powershell
+python manage.py preparar_base_recife --dry-run
+python manage.py preparar_base_recife
 ```
 
-Os apps compartilham **um único banco PostgreSQL**; o `import-linter` verifica os contratos de importação definidos no repositório. Outros componentes devem consumir a interface pública de `cadastro` (`apps.cadastro.interface`) quando essa interface atender à consulta necessária.
+Prepara de forma idempotente **8 distritos, 7 tipos de unidade, 11 categorias de avaliação**, o catálogo de **58 registros hierárquicos**, **44 pesos principais** e **157 associações de regras**. Reutiliza os importadores de `apps.normativa` sem duplicá-los nem alterar registros divergentes.
 
-## Controle de Acesso (`apps/acesso`)
-
-O login utiliza **e-mail**, sessões Django e CSRF. Rotas:
-
-- `GET /api/auth/csrf/` — define cookie CSRF;
-- `POST /api/auth/login/` — login com e-mail e senha;
-- `GET /api/auth/me/` — sessão, grupos, permissões e `is_superuser`;
-- `POST /api/auth/logout/` — encerra a sessão.
-
-Grupos reais: **Configurador**, **Registrador**, **Homologador** e **Consultador**. `is_superuser` é administração técnica, não um quinto papel funcional. Os grupos recebem permissões do catálogo `apps.acesso.models.Operacao`; autorização deve ser verificada no backend, não apenas ocultando menus no React. O escopo por unidade/indicador ainda será validado nas APIs futuras.
-
-Não confundir esses **papéis de acesso** com as **categorias de avaliação** da CAM 1.2 (USF, GG, SNA etc.).
-
-## Cadastro (`apps/cadastro`)
-
-Modelos: `Distrito`, `TipoUnidade`, `Unidade`, `CategoriaAvaliacao`, `PessoaAvaliada`, `Responsabilidade`.
-
-- A migração inicial cria **8 distritos**, **7 tipos de unidade** e **11 categorias** (7 de unidade e 4 distritais); não cria pessoas nem unidades fictícias.
-- `PessoaAvaliada` é independente de `Usuario` (associação opcional).
-- Uma `Responsabilidade` associa a pessoa a **uma unidade OU um distrito**, sua categoria e um período. Para múltiplas unidades, existem múltiplos vínculos. O gestor distrital se vincula ao distrito, sem replicar cada unidade.
-- Validações impedem período inválido, escopo incompatível e sobreposição da mesma pessoa/categoria/destino.
-- API administrativa: `/api/cadastro/distritos/`, `/tipos-unidade/`, `/unidades/`, `/categorias-avaliacao/`, `/avaliados/`, `/responsabilidades/` (todos sob `/api/cadastro/`).
-- O Django Admin oferece as telas de manutenção; **não há ainda telas React de Cadastro**.
-
-O Cadastro **não armazena metas ou pesos**. Mudanças de distrito/unidade no futuro devem preservar o retrato organizacional das avaliações já encerradas — snapshot de apuração ainda não implementado.
-
-## Normativa CAM 1.2 (`apps/normativa`)
-
-Modelos: `VersaoNormativa`, `Indicador` (estrutura pai/filho), `RegraIndicador` (meta, método, periodicidade e parâmetros por categoria), `PesoIndicador` (peso por categoria).
-
-**Carga validada pela equipe:** 58 registros hierárquicos (57 da planilha + 1 raiz auxiliar do indicador 4), 44 pesos principais, 157 associações de regras e 11 categorias. O catálogo abrange **cinco indicadores principais**: medicamentos/MMH, gestão do trabalho, satisfação do usuário, desempenho da unidade e vigilância em saúde distrital.
-
-Importadores idempotentes (sem sobrescrever regras divergentes) e modo `--dry-run`:
+Opções de manutenção: `--apenas-estrutura` e `--atualizar-rotulos`. Para executar isoladamente as cargas da Normativa:
 
 ```powershell
 python manage.py importar_cam12 --dry-run
@@ -96,35 +61,81 @@ python manage.py configurar_regras_cam12 --dry-run
 python manage.py configurar_regras_cam12
 ```
 
-Os dados dos importadores estão em `apps/normativa/data/cam12.json` e `regras_cam12.json`. Os comandos ficam em `apps/normativa/management/commands/`. A lógica matemática isolada está em `apps/normativa/services/calculo_cam12.py`.
+Os cinco indicadores principais são **Medicamentos/MMH, Gestão do Trabalho, Satisfação do Usuário, Desempenho da Unidade e Vigilância em Saúde**. Casos marcados para revisão não devem gerar nota automática nem nota zero.
 
-As regras importadas incluem situações marcadas **`CALCULAVEL`**, **`ENTRADA_TRATADA`** e **`REVISAR`**. Há 127 associações com métodos de cálculo suportados a partir de dados já aferidos, 11 que requerem notas previamente tratadas e 19 sinalizadas para revisão. Regras `REVISAR` **não devem ser calculadas automaticamente**. Não executar código arbitrário vindo de JSON; o serviço usa operações predeterminadas.
+## Criar dados fictícios para testes
 
-Pendências conhecidas: pesos internos da satisfação (80/20 na portaria versus indicação excepcional 100/0 na planilha), composição da ESF (70/30 na portaria versus pesos divergentes na planilha), classificação de item UCIS/MAC, variantes MAC conforme serviços oferecidos e resultados pré-processados de áreas técnicas. A Portaria determina redistribuição proporcional quando um indicador não puder ser aferido por motivo técnico/administrativo (art. 8º); isso é diferente de **nota zero** ou **dado ausente**.
+A massa **DEMO** não faz parte da base normativa. Depois da preparação, com `DJANGO_DEBUG=1`:
 
-A Normativa está disponível no **Django Admin**. **Não existe ainda `/api/normativa/` nem formulário React para gerenciar regras.** O serviço de cálculo não consulta sozinho os dados das unidades nem gera avaliações completas.
+```powershell
+python manage.py gerar_mock_recife --dry-run
+python manage.py gerar_mock_recife
+```
 
-## Testes e verificação
+Por padrão gera até **21 unidades fictícias** (três de cada tipo), **53 pessoas avaliadas** e suas **53 responsabilidades** (21 de unidade e 32 distritais: quatro categorias para cada um dos oito distritos). Esses dados possuem identificadores de demonstração e não sobrescrevem registros reais conflitantes. A quantidade efetiva pode ser menor conforme a situação do banco.
+
+Opções úteis:
+
+```powershell
+python manage.py gerar_mock_recife --unidades-por-tipo 5
+python manage.py gerar_mock_recife --sem-distritais
+python manage.py limpar_mock_recife --dry-run
+python manage.py limpar_mock_recife --confirmar
+```
+
+Esses comandos **não criam logins, competências nem atribuições de Registradores**. A limpeza é explícita e respeita os vínculos protegidos. Não execute os mocks em produção.
+
+## Fluxo de Coleta e avaliação
+
+1. **Configurador** abre o período mensal, cadastra pessoas avaliadas e responsabilidades e distribui unidades/distritos aos Registradores.
+2. O **backend** gera tarefas a partir da competência, do escopo, da categoria e da Normativa. Para o distrito, o **Indicador 5** só é solicitado quando existe alguma responsabilidade distrital vigente cuja categoria o exige. Vários gestores elegíveis compartilham o mesmo lançamento técnico.
+3. **Registrador** navega por **período → distrito → unidade/distrito → indicador**, preenche subindicadores, salva rascunhos e envia os dados com indicação da fonte.
+4. **Homologador** aprova ou devolve com justificativa; não pode homologar os próprios dados.
+5. **Apuração (futura)** consolidará os indicadores e os pesos por categoria e os relacionará às pessoas responsáveis na competência.
+
+Unidade sem responsável cadastrado deve aparecer como **pendência de configuração**, sem bloquear a coleta. Regra não aferível permanece **indisponível**, nunca convertida em zero por padrão.
+
+## Principais rotas REST
+
+| Endereço | Finalidade |
+| --- | --- |
+| `/api/auth/csrf/`, `/login/`, `/me/`, `/logout/` | Autenticação e sessão (todas sob `/api/auth/`) |
+| `/api/auth/usuarios/`, `/api/auth/operadores/` | Consulta de usuários e gerenciamento limitado de contas operacionais |
+| `/api/cadastro/` | Distritos, categorias, tipos, unidades, avaliados e responsabilidades |
+| `/api/cadastro/painel/` | Consulta consolidada do Cadastro |
+| `/api/normativa/versoes/` | Consulta das versões normativas e respectivos detalhes |
+| `/api/coleta/competencias/` | Períodos de avaliação |
+| `/api/coleta/autorizacoes/` | Autorizações para lançamento |
+| `/api/coleta/tarefas/`, `/tarefas/salvar/`, `/tarefas/enviar/` | Tarefas, rascunhos e envio (sob `/api/coleta/`) |
+| `/api/coleta/tarefas/revisao/`, `/tarefas/decidir/` | Revisão e homologação (sob `/api/coleta/`) |
+| `/api/coleta/resumo/` | Painel operacional |
+| `/api/coleta/painel-configurador/` | Contadores administrativos e progresso por Registrador |
+| `/admin/` | Django Admin de uso **técnico** |
+
+Todas as operações relevantes exigem autenticação e checagem de permissões no servidor; menus no frontend não substituem autorização.
+
+## Testes
 
 ```powershell
 python manage.py check
 python manage.py makemigrations --check --dry-run
-python manage.py test apps.acesso apps.cadastro apps.normativa
-python -m unittest apps.normativa.test_motor_cam12_puro
+python manage.py test apps.acesso apps.cadastro apps.normativa apps.coleta
 lint-imports
 ```
 
-**Ordem para reconstruir a base em um ambiente novo:** criar DB e `.env` → `migrate` → `importar_cam12` → `configurar_regras_cam12`. Não repita `makemigrations` se o esquema já corresponde aos arquivos versionados; o comando com `--check --dry-run` apenas verifica desvios.
+Testes focados:
 
-## Limites do MVP e próximo desenvolvimento
+```powershell
+python manage.py test apps.cadastro.test_comandos_recife
+python manage.py test apps.coleta.test_i5_distrital_condicional
+python manage.py test apps.coleta.test_rota_painel_configurador
+```
 
-O objetivo é **avaliar e consolidar pontuações** dos gestores, supervisores e coordenadores. Estão fora desta entrega: cálculo monetário final/folha, integração automática com Hórus, SISAB e demais fontes, CAM 2.0 completa, motor genérico de fórmulas e recursos eletrônicos (a portaria cita o SEI/RECIFE).
+## Limites do protótipo
 
-**Próxima etapa: `coleta`**, para informar dados e notas da competência com fonte, autoria, estado e posterior homologação; em seguida, `apuracao` realizará a agregação entre unidades/distritos, usará regras validadas e registrará a memória dos cálculos. Nenhum resultado gerado nesta fase deve ser tratado como valor oficial de gratificação.
+- **Apuração, notas finais dos gestores, pagamento e integrações externas:** ainda não implementados de ponta a ponta.
+- **CAM 1.2:** algumas regras têm divergências entre planilha e portaria; não apresentar tais resultados como oficiais.
+- **Atribuições de Coleta:** ainda não possuem vigência por competência; a abrangência dos Homologadores também demanda refinamento.
+- **Dados sensíveis:** não compartilhar `.env`, `.venv/`, dump de banco ou usuários/senhas reais em pacotes de revisão.
 
-## Documentação
-
-- `docs/SGGD_Escopo_CAM_1_2_Atualizado.docx` — decisão de escopo, referências e estado atual.
-- `docs/SGGD_Componente_Cadastro.docx` — modelos, responsabilidades, validações e limites.
-- `docs/SGGD_Componente_Normativa_CAM12.docx` — catálogo, importadores, regras e restrições.
-- `docs/SGGD_Componente_Cadastro.docx` — Papeise autenticação
+**Documentação revisada em 16/11/2026**, conforme o estado atual dos componentes Acesso, Cadastro, Normativa e Coleta.

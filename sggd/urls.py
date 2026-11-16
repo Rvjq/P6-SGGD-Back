@@ -6,4 +6,5 @@ urlpatterns = [
     path("api/auth/", include("apps.acesso.urls")),
     path("api/cadastro/", include("apps.cadastro.urls")),
     path("api/coleta/", include("apps.coleta.urls")),
+    path("api/normativa/", include("apps.normativa.consulta_urls")),
 ]

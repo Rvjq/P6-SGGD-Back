@@ -200,3 +200,5 @@ class RegistroViewSet(
             registro.decidido_em = timezone.now()
             validar_modelo_salvar(registro)
         return Response(self.get_serializer(registro).data)
+
+

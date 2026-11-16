@@ -181,6 +181,13 @@ class Responsabilidade(models.Model):
                 erros["categoria"] = "Essa categoria exige uma unidade."
             if escopo == CategoriaAvaliacao.Escopo.DISTRITO and not self.distrito_id:
                 erros["categoria"] = "Essa categoria exige um distrito."
+            if escopo == CategoriaAvaliacao.Escopo.UNIDADE and self.unidade_id:
+                categoria_do_tipo = self.unidade.tipo.categoria_id
+                if self.categoria_id != categoria_do_tipo:
+                    erros["categoria"] = (
+                        "A categoria da responsabilidade deve corresponder "
+                        "à categoria do tipo da unidade."
+                    )
 
         # Mesma pessoa/categoria/destino não pode ter designações sobrepostas.
         if (
@@ -212,6 +219,10 @@ class Responsabilidade(models.Model):
             raise ValidationError(erros)
 
     def save(self, *args, **kwargs):
+        # Em unidade a categoria é dada pelo tipo cadastrado, não é livre.
+        # Uma categoria enviada explicitamente e incompatível será recusada.
+        if self.unidade_id and not self.categoria_id:
+            self.categoria_id = self.unidade.tipo.categoria_id
         self.full_clean()
         return super().save(*args, **kwargs)
 

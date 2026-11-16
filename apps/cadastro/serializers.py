@@ -66,6 +66,35 @@ class PessoaAvaliadaSerializer(ModeloValidadoSerializer):
 
 
 class ResponsabilidadeSerializer(ModeloValidadoSerializer):
+    # Necessária explicitamente em distrito; derivada do tipo quando é unidade.
+    categoria = serializers.PrimaryKeyRelatedField(
+        queryset=CategoriaAvaliacao.objects.all(), required=False,
+    )
+
+    def validate(self, attrs):
+        unidade = attrs.get(
+            "unidade", getattr(self.instance, "unidade", None) if self.instance else None
+        )
+        distrito = attrs.get(
+            "distrito", getattr(self.instance, "distrito", None) if self.instance else None
+        )
+        categoria = attrs.get(
+            "categoria", getattr(self.instance, "categoria", None) if self.instance else None
+        )
+        if unidade is not None and distrito is None:
+            esperada = unidade.tipo.categoria
+            if "categoria" in attrs and attrs["categoria"].pk != esperada.pk:
+                raise serializers.ValidationError({
+                    "categoria": "Categoria definida pelo tipo da unidade; não pode ser alterada."
+                })
+            # Se alterou a unidade via PATCH, a categoria deve acompanhá-la.
+            attrs["categoria"] = esperada
+        elif distrito is not None and categoria is None:
+            raise serializers.ValidationError({
+                "categoria": "Selecione GG, SNA, SNB1 ou SNB2 para o distrito."
+            })
+        return super().validate(attrs)
+
     class Meta:
         model = Responsabilidade
         fields = (
@@ -73,3 +102,9 @@ class ResponsabilidadeSerializer(ModeloValidadoSerializer):
             "data_inicio", "data_fim", "referencia_designacao",
         )
         read_only_fields = ("id",)
+        # Os validadores automáticos para as UniqueConstraint exigem
+        # `categoria` ANTES de validate(), onde ela é derivada da unidade.
+        # Desabilitar apenas esses validadores antecipados. A checagem de
+        # unicidade, sobreposição e escopo continua em full_clean() do modelo,
+        # chamado por ModeloValidadoSerializer.validate().
+        validators = []
